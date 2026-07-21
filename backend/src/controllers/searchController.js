@@ -1,0 +1,94 @@
+const { query } = require('../config/db');
+
+// Global Search engine across users, communities, projects, research, events
+async function globalSearch(req, res) {
+  try {
+    const searchTerm = req.query.q;
+    if (!searchTerm || searchTerm.trim() === '') {
+      return res.status(200).json({
+        users: [],
+        communities: [],
+        projects: [],
+        research: [],
+        events: []
+      });
+    }
+
+    const pattern = `%${searchTerm.trim()}%`;
+
+    // 1. Search Users
+    const usersPromise = query(`
+      SELECT u.id, u.full_name, u.email, u.role, u.avatar_url, i.name as institution_name
+      FROM users u
+      LEFT JOIN institutions i ON u.institution_id = i.id
+      WHERE u.full_name ILIKE $1 OR u.email ILIKE $1
+      LIMIT 10
+    `, [pattern]);
+
+    // 2. Search Communities
+    const communitiesPromise = query(`
+      SELECT ac.*, u.full_name as creator_name
+      FROM academic_communities ac
+      LEFT JOIN users u ON ac.created_by = u.id
+      WHERE ac.name ILIKE $1 OR ac.description ILIKE $1 OR ac.category ILIKE $1
+      LIMIT 10
+    `, [pattern]);
+
+    // 3. Search Projects (User must be a member or admin, or project is open)
+    // For simplicity, we search all matching titles/descriptions but restrict results based on privacy rules if necessary.
+    // For a development build, we can let user search any projects they have visibility on
+    const projectsPromise = query(`
+      SELECT DISTINCT p.*, u.full_name as creator_name
+      FROM projects p
+      LEFT JOIN users u ON p.created_by = u.id
+      LEFT JOIN project_members pm ON p.id = pm.project_id
+      WHERE (p.title ILIKE $1 OR p.description ILIKE $1)
+        AND (p.created_by = $2 OR pm.user_id = $2 OR $3 = 'admin')
+      LIMIT 10
+    `, [pattern, req.user.id, req.user.role]);
+
+    // 4. Search Research Publications
+    const researchPromise = query(`
+      SELECT rr.*, u.full_name as uploader_name, i.name as institution_name
+      FROM research_repository rr
+      LEFT JOIN users u ON rr.uploaded_by = u.id
+      LEFT JOIN institutions i ON rr.institution_id = i.id
+      WHERE rr.title ILIKE $1 OR rr.abstract ILIKE $1 OR rr.authors ILIKE $1
+      LIMIT 10
+    `, [pattern]);
+
+    // 5. Search Events
+    const eventsPromise = query(`
+      SELECT e.*, u.full_name as organizer_name, i.name as institution_name
+      FROM events e
+      LEFT JOIN users u ON e.organizer_id = u.id
+      LEFT JOIN institutions i ON e.institution_id = i.id
+      WHERE e.title ILIKE $1 OR e.description ILIKE $1 OR e.location ILIKE $1
+      LIMIT 10
+    `, [pattern]);
+
+    // Execute all queries in parallel
+    const [usersRes, communitiesRes, projectsRes, researchRes, eventsRes] = await Promise.all([
+      usersPromise,
+      communitiesPromise,
+      projectsPromise,
+      researchPromise,
+      eventsPromise
+    ]);
+
+    return res.status(200).json({
+      users: usersRes.rows,
+      communities: communitiesRes.rows,
+      projects: projectsRes.rows,
+      research: researchRes.rows,
+      events: eventsRes.rows
+    });
+  } catch (error) {
+    console.error('Global search error:', error);
+    return res.status(500).json({ message: 'Internal server error performing search.' });
+  }
+}
+
+module.exports = {
+  globalSearch,
+};
