@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { GraduationCap, Lock, Mail, User, BookOpen, Loader2 } from 'lucide-react';
+import { GraduationCap, Lock, Mail, User, BookOpen, Loader2, ArrowRight, Users, Globe, Award } from 'lucide-react';
 
 const Register = ({ onSwitchLogin }) => {
   const { register } = useAuth();
@@ -10,8 +10,7 @@ const Register = ({ onSwitchLogin }) => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('student');
   const [bio, setBio] = useState('');
-  
-  // Metadata state
+
   const [institutions, setInstitutions] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [selectedInstitution, setSelectedInstitution] = useState('');
@@ -20,9 +19,11 @@ const Register = ({ onSwitchLogin }) => {
   const [loading, setLoading] = useState(false);
   const [loadingDepts, setLoadingDepts] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [mounted, setMounted] = useState(false);
+  const [focusField, setFocusField] = useState(null);
 
-  // Fetch institutions on mount
   useEffect(() => {
+    setMounted(true);
     const loadInstitutions = async () => {
       try {
         const res = await api.getInstitutions();
@@ -34,14 +35,12 @@ const Register = ({ onSwitchLogin }) => {
     loadInstitutions();
   }, []);
 
-  // Fetch departments when selected institution changes
   useEffect(() => {
     if (!selectedInstitution) {
       setDepartments([]);
       setSelectedDepartment('');
       return;
     }
-
     const loadDepartments = async () => {
       setLoadingDepts(true);
       try {
@@ -65,17 +64,8 @@ const Register = ({ onSwitchLogin }) => {
     }
     setErrorMsg('');
     setLoading(true);
-
     try {
-      await register({
-        email,
-        password,
-        fullName,
-        role,
-        institutionId: selectedInstitution || null,
-        departmentId: selectedDepartment || null,
-        bio
-      });
+      await register({ email, password, fullName, role, institutionId: selectedInstitution || null, departmentId: selectedDepartment || null, bio });
     } catch (err) {
       setErrorMsg(err.message || 'Registration failed.');
     } finally {
@@ -83,182 +73,296 @@ const Register = ({ onSwitchLogin }) => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-slatebg-950 flex flex-col justify-center items-center px-4 py-12 relative overflow-hidden">
-      {/* Background radial accent */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-900/10 rounded-full blur-[100px] pointer-events-none z-0"></div>
+  const getInputStyle = (fieldName) => ({
+    background: '#FFFFFF',
+    border: focusField === fieldName ? '2px solid #2563EB' : '1.5px solid #E2E8F0',
+    color: '#0F172A',
+    outline: 'none',
+    boxShadow: focusField === fieldName ? '0 0 0 4px rgba(37,99,235,0.10)' : 'none',
+    transition: 'border 0.2s, box-shadow 0.2s',
+    fontFamily: 'Inter, sans-serif',
+  });
 
-      <div className="w-full max-w-lg bg-slatebg-900 border border-slatebg-800 shadow-2xl rounded-2xl p-8 z-10 animate-slide-up relative">
-        <div className="flex flex-col items-center mb-6">
-          <div className="p-3 bg-brand-950/40 border border-brand-800 rounded-2xl text-brand-400 mb-2 shadow-inner">
-            <GraduationCap className="h-9 w-9 stroke-[1.2]" />
-          </div>
-          <h2 className="text-xl font-bold text-white">Create Account</h2>
-          <p className="text-xs text-slatebg-400 mt-1">Join the cross-institutional academic network</p>
+  const getIconColor = (fieldName) => focusField === fieldName ? '#2563EB' : '#94A3B8';
+
+  const selectStyle = (fieldName) => ({
+    ...getInputStyle(fieldName),
+    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%232563EB' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
+    backgroundPosition: 'right 0.75rem center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '1.2em 1.2em',
+    paddingRight: '2.5rem',
+    appearance: 'none',
+    cursor: 'pointer',
+  });
+
+  const features = [
+    { icon: Users, label: '12,000+ researchers connected' },
+    { icon: Globe, label: '280+ institutions worldwide' },
+    { icon: Award, label: '3,400+ active projects' },
+  ];
+
+  return (
+    <div className="min-h-screen flex relative overflow-hidden" style={{ background: '#F8FAFC' }}>
+
+      {/* ════════════════════════════════════════════════════════
+          LEFT PANEL — Deep navy hero
+          ════════════════════════════════════════════════════════ */}
+      <div
+        className="hidden lg:flex flex-col items-center justify-center p-16 relative overflow-hidden"
+        style={{ width: '42%', minWidth: '380px', background: 'linear-gradient(145deg, #0F172A 0%, #1E3A8A 55%, #1D4ED8 100%)' }}
+      >
+        {/* Background decorations */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-20"
+            style={{ background: 'radial-gradient(circle, #60A5FA 0%, transparent 70%)' }} />
+          <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full opacity-15"
+            style={{ background: 'radial-gradient(circle, #3B82F6 0%, transparent 70%)' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full border border-dashed opacity-20 animate-spin-slow"
+            style={{ borderColor: 'rgba(147,197,253,0.5)' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border opacity-15"
+            style={{ borderColor: 'rgba(147,197,253,0.4)', animation: 'spinSlow 18s linear infinite reverse' }} />
         </div>
 
-        {errorMsg && (
-          <div className="mb-4 p-3.5 bg-red-950/20 border border-red-900/40 text-red-400 rounded-lg text-xs font-medium">
-            {errorMsg}
+        {/* Icon badge */}
+        <div className="relative z-10 mb-8 animate-tilt-3d">
+          <div className="w-24 h-24 rounded-3xl flex items-center justify-center shadow-2xl"
+            style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 100%)', border: '1px solid rgba(255,255,255,0.25)', backdropFilter: 'blur(12px)' }}>
+            <GraduationCap className="h-12 w-12" style={{ color: '#93C5FD' }} strokeWidth={1.5} />
           </div>
-        )}
+         
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Full Name */}
-            <div>
-              <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase tracking-wider">Full Name *</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slatebg-500">
-                  <User className="h-4.5 w-4.5" />
-                </span>
-                <input
-                  type="text"
-                  placeholder="John Doe"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-600 focus:outline-none focus:border-brand-500 text-white"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase tracking-wider">Email Address *</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slatebg-500">
-                  <Mail className="h-4.5 w-4.5" />
-                </span>
-                <input
-                  type="email"
-                  placeholder="john.doe@university.edu"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-600 focus:outline-none focus:border-brand-500 text-white"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Password */}
-            <div>
-              <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase tracking-wider">Password *</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slatebg-500">
-                  <Lock className="h-4.5 w-4.5" />
-                </span>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-600 focus:outline-none focus:border-brand-500 text-white"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Academic Role Selection */}
-            <div>
-              <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase tracking-wider">Academic Role *</label>
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm text-slatebg-100 focus:outline-none focus:border-brand-500 text-white"
-              >
-                <option value="student">Student</option>
-                <option value="lecturer">Lecturer</option>
-                <option value="researcher">Researcher</option>
-                <option value="admin">Institution Administrator</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Institution Selection */}
-            <div>
-              <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase tracking-wider">Institution</label>
-              <select
-                value={selectedInstitution}
-                onChange={(e) => setSelectedInstitution(e.target.value)}
-                className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm text-slatebg-100 focus:outline-none focus:border-brand-500 text-white"
-              >
-                <option value="">Select Institution...</option>
-                {institutions.map((inst) => (
-                  <option key={inst.id} value={inst.id}>
-                    {inst.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Department Selection */}
-            <div>
-              <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase tracking-wider">
-                Department {loadingDepts && <span className="text-[10px] text-brand-400 lowercase">(loading...)</span>}
-              </label>
-              <select
-                value={selectedDepartment}
-                onChange={(e) => setSelectedDepartment(e.target.value)}
-                disabled={!selectedInstitution || loadingDepts}
-                className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm text-slatebg-100 disabled:opacity-50 focus:outline-none focus:border-brand-500 text-white"
-              >
-                <option value="">Select Department...</option>
-                {departments.map((dept) => (
-                  <option key={dept.id} value={dept.id}>
-                    {dept.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Biography */}
-          <div>
-            <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase tracking-wider">Academic Bio / Research Interests</label>
-            <div className="relative">
-              <span className="absolute top-3 left-3 text-slatebg-500">
-                <BookOpen className="h-4.5 w-4.5" />
-              </span>
-              <textarea
-                placeholder="Share your fields of study, academic focus, or research projects..."
-                value={bio}
-                onChange={(e) => setBio(e.target.value)}
-                rows="3"
-                className="w-full pl-9 pr-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-600 focus:outline-none focus:border-brand-500 text-white resize-none"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full mt-2 py-3 bg-brand-600 hover:bg-brand-500 disabled:bg-brand-800 text-white text-sm font-semibold rounded-xl transition-all shadow-lg shadow-brand-950/40 flex items-center justify-center gap-2"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4.5 w-4.5 animate-spin" />
-                <span>Registering Account...</span>
-              </>
-            ) : (
-              <span>Create Account</span>
-            )}
-          </button>
-        </form>
-
-        <div className="mt-6 pt-5 border-t border-slatebg-800 text-center">
-          <p className="text-xs text-slatebg-400">
-            Already have an account?{' '}
-            <button
-              onClick={onSwitchLogin}
-              className="text-brand-400 hover:text-brand-300 font-semibold underline transition-colors"
-            >
-              Sign in instead
-            </button>
+        {/* Heading */}
+        <div className="relative z-10 text-center mb-10">
+          <h1 className="text-3xl font-bold leading-tight mb-3" style={{ color: '#FFFFFF', fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+            Join the Network
+          </h1>
+          <p className="text-sm leading-relaxed" style={{ color: 'rgba(186,230,253,0.85)' }}>
+            Create an account to discover cross-institutional events, find research partners, and join academic communities.
           </p>
+        </div>
+
+        {/* Feature list */}
+        <div className="relative z-10 w-full max-w-xs space-y-3">
+          {features.map(({ icon: Icon, label }) => (
+            <div key={label} className="flex items-center gap-3 px-4 py-3 rounded-xl"
+              style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)' }}>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                style={{ background: 'rgba(37,99,235,0.35)' }}>
+                <Icon className="h-4 w-4" style={{ color: '#93C5FD' }} strokeWidth={1.5} />
+              </div>
+              <span className="text-sm font-medium" style={{ color: 'rgba(219,234,254,0.9)' }}>{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ════════════════════════════════════════════════════════
+          RIGHT PANEL — Registration form
+          ════════════════════════════════════════════════════════ */}
+      <div className="flex-1 flex items-center justify-center p-6 relative overflow-y-auto" style={{ background: '#F8FAFC' }}>
+
+        {/* Subtle orbs */}
+        <div className="absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(99,179,237,0.05) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+
+        <div className={`w-full max-w-xl relative z-10 transition-all duration-700 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
+          <div className="rounded-3xl p-8" style={{ background: '#FFFFFF', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.07), 0 20px 50px -12px rgba(37,99,235,0.12)', border: '1px solid #E2E8F0' }}>
+
+            {/* Top accent line */}
+            <div className="absolute top-0 left-10 right-10 h-[3px] rounded-b-full"
+              style={{ background: 'linear-gradient(90deg, transparent, #2563EB, #60A5FA, transparent)' }} />
+
+            {/* Header */}
+            <div className="flex flex-col items-center mb-7">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-3"
+                style={{ background: 'linear-gradient(135deg, #EFF6FF, #DBEAFE)' }}>
+                <User className="h-6 w-6 text-blue-600" strokeWidth={1.5} />
+              </div>
+              <h2 className="text-2xl font-bold text-center mb-1" style={{ color: '#0F172A', fontFamily: 'Outfit, sans-serif', letterSpacing: '-0.02em' }}>
+                Create Account
+              </h2>
+              <p className="text-xs text-center font-semibold uppercase tracking-widest" style={{ color: '#64748B' }}>
+                Enter your details to get started
+              </p>
+            </div>
+
+            {errorMsg && (
+              <div className="mb-5 p-4 rounded-xl text-sm font-medium flex items-center gap-2 animate-scale-in"
+                style={{ background: '#FEF2F2', border: '1px solid #FECACA', color: '#DC2626' }}>
+                {errorMsg}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+
+              {/* Row 1: Full Name + Email */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: '#475569' }}>Full Name *</label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none" style={{ color: getIconColor('name') }}>
+                      <User className="h-4 w-4" />
+                    </span>
+                    <input
+                      type="text" placeholder="John Doe" value={fullName} required
+                      onChange={(e) => setFullName(e.target.value)}
+                      onFocus={() => setFocusField('name')} onBlur={() => setFocusField(null)}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl text-sm"
+                      style={getInputStyle('name')}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: '#475569' }}>Email Address *</label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none" style={{ color: getIconColor('email') }}>
+                      <Mail className="h-4 w-4" />
+                    </span>
+                    <input
+                      type="email" placeholder="john@university.edu" value={email} required
+                      onChange={(e) => setEmail(e.target.value)}
+                      onFocus={() => setFocusField('email')} onBlur={() => setFocusField(null)}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl text-sm"
+                      style={getInputStyle('email')}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 2: Password + Role */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: '#475569' }}>Password *</label>
+                  <div className="relative">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none" style={{ color: getIconColor('password') }}>
+                      <Lock className="h-4 w-4" />
+                    </span>
+                    <input
+                      type="password" placeholder="••••••••" value={password} required
+                      onChange={(e) => setPassword(e.target.value)}
+                      onFocus={() => setFocusField('password')} onBlur={() => setFocusField(null)}
+                      className="w-full pl-10 pr-4 py-3 rounded-xl text-sm"
+                      style={getInputStyle('password')}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: '#475569' }}>Academic Role *</label>
+                  <select
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    onFocus={() => setFocusField('role')} onBlur={() => setFocusField(null)}
+                    className="w-full px-4 py-3 rounded-xl text-sm"
+                    style={selectStyle('role')}
+                  >
+                    <option value="student">Student</option>
+                    <option value="lecturer">Lecturer</option>
+                    <option value="researcher">Researcher</option>
+                    <option value="admin">Institution Administrator</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Row 3: Institution + Department */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: '#475569' }}>Institution</label>
+                  <select
+                    value={selectedInstitution}
+                    onChange={(e) => setSelectedInstitution(e.target.value)}
+                    onFocus={() => setFocusField('inst')} onBlur={() => setFocusField(null)}
+                    className="w-full px-4 py-3 rounded-xl text-sm"
+                    style={selectStyle('inst')}
+                  >
+                    <option value="">Select Institution...</option>
+                    {institutions.map((inst) => (
+                      <option key={inst.id} value={inst.id}>{inst.name}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: '#475569' }}>
+                    Department{loadingDepts && <span className="ml-1.5 text-[10px] lowercase font-normal animate-pulse" style={{ color: '#2563EB' }}>(loading...)</span>}
+                  </label>
+                  <select
+                    value={selectedDepartment}
+                    onChange={(e) => setSelectedDepartment(e.target.value)}
+                    disabled={!selectedInstitution || loadingDepts}
+                    onFocus={() => setFocusField('dept')} onBlur={() => setFocusField(null)}
+                    className="w-full px-4 py-3 rounded-xl text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={selectStyle('dept')}
+                  >
+                    <option value="">Select Department...</option>
+                    {departments.map((dept) => (
+                      <option key={dept.id} value={dept.id}>{dept.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Bio */}
+              <div>
+                <label className="block text-xs font-semibold mb-1.5 uppercase tracking-wider" style={{ color: '#475569' }}>Academic Bio / Focus</label>
+                <div className="relative">
+                  <span className="absolute top-3.5 left-3.5 pointer-events-none" style={{ color: getIconColor('bio') }}>
+                    <BookOpen className="h-4 w-4" />
+                  </span>
+                  <textarea
+                    placeholder="Share your fields of study or research projects..."
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    onFocus={() => setFocusField('bio')} onBlur={() => setFocusField(null)}
+                    rows={3}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl text-sm resize-none"
+                    style={getInputStyle('bio')}
+                  />
+                </div>
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all duration-200 group"
+                style={{
+                  background: loading ? '#93C5FD' : 'linear-gradient(135deg, #1D4ED8, #2563EB)',
+                  color: '#FFFFFF',
+                  fontFamily: 'Outfit, sans-serif',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  boxShadow: loading ? 'none' : '0 4px 14px rgba(37,99,235,0.35)',
+                  letterSpacing: '0.01em',
+                }}
+                onMouseEnter={e => { if (!loading) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 20px rgba(37,99,235,0.45)'; } }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = loading ? 'none' : '0 4px 14px rgba(37,99,235,0.35)'; }}
+              >
+                {loading ? (
+                  <><Loader2 className="h-5 w-5 animate-spin" /><span>Registering...</span></>
+                ) : (
+                  <><span>Create Account</span><ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></>
+                )}
+              </button>
+            </form>
+
+            {/* Footer */}
+            <div className="mt-7 pt-5 text-center" style={{ borderTop: '1px solid #E2E8F0' }}>
+              <p className="text-sm" style={{ color: '#64748B' }}>
+                Already have an account?{' '}
+                <button
+                  onClick={onSwitchLogin}
+                  className="font-bold transition-colors duration-200"
+                  style={{ color: '#2563EB' }}
+                  onMouseEnter={e => e.currentTarget.style.color = '#1D4ED8'}
+                  onMouseLeave={e => e.currentTarget.style.color = '#2563EB'}
+                >
+                  Sign in instead
+                </button>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -266,4 +370,3 @@ const Register = ({ onSwitchLogin }) => {
 };
 
 export default Register;
-// 

@@ -1,128 +1,120 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
-import { Bell, Search, CheckCheck, Inbox } from 'lucide-react';
+import { Bell, Search, CheckCheck, Inbox, ChevronRight } from 'lucide-react';
 
-const Navbar = ({ currentTab, onSearch, searchValue }) => {
+const Navbar = ({ setMobileOpen, onSearch, searchValue }) => {
+  const { user } = useAuth();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  // Close dropdown on click outside
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const getPageTitle = () => {
-    switch (currentTab) {
-      case 'dashboard': return 'Dashboard Overview';
-      case 'communities': return 'Academic Communities';
-      case 'projects': return 'Collaborative Projects';
-      case 'events': return 'Academic Events';
-      case 'research': return 'Research Repository';
-      case 'chat': return 'Real-Time Message Board';
-      case 'profile': return 'My User Profile';
-      case 'admin': return 'Administrator Control Dashboard';
-      case 'search': return 'Global Search Results';
-      default: return 'Portal';
-    }
-  };
-
-  const handleNotificationClick = (notif) => {
-    markAsRead(notif.id);
-    setDropdownOpen(false);
-    // Navigating can happen relative to the context tab if required
-    // Links are stored like /communities/2. Since we are using custom state routing,
-    // the UI can detect or the user can just click it and it marks as read
-  };
+  const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <header className="h-16 bg-slatebg-900 border-b border-slatebg-800 flex items-center justify-between px-8 fixed top-0 right-0 left-64 z-20">
-      {/* Title / Action */}
-      <div className="flex items-center gap-4">
-        <h2 className="text-lg font-semibold text-white">{getPageTitle()}</h2>
-      </div>
+    <header className="h-16 sticky top-0 z-30 w-full backdrop-blur-2xl border-b bg-slate-50/85 border-slate-300 shadow-[0_4px_20px_rgba(37,99,235,0.05)]">
+      {/* Decorative top border line */}
+      <div className="absolute top-0 left-0 w-full h-[1px] opacity-60 bg-gradient-to-r from-transparent via-blue-300 to-transparent" />
 
-      {/* Right Navbar utilities */}
-      <div className="flex items-center gap-6">
-        {/* Global Search Bar */}
-        <div className="relative w-72">
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slatebg-500">
-            <Search className="h-4 w-4" />
-          </span>
-          <input
-            type="text"
-            placeholder="Search communities, papers, events..."
-            value={searchValue}
-            onChange={(e) => onSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-1.5 bg-slatebg-950 border border-slatebg-800 rounded-lg text-sm text-slatebg-100 placeholder-slatebg-550 focus:outline-none focus:border-brand-500 transition-colors"
-          />
-        </div>
-
-        {/* Notifications Trigger */}
-        <div className="relative" ref={dropdownRef}>
+      <div className="flex items-center justify-between h-full px-4 sm:px-6 lg:px-10">
+        
+        <div className="flex items-center gap-4 flex-1">
+          {/* Mobile Menu Toggle */}
           <button
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="p-2 rounded-full text-slatebg-400 hover:text-white hover:bg-slatebg-800 transition-colors relative"
+            onClick={() => setMobileOpen(true)}
+            className="lg:hidden p-2.5 rounded-xl text-slate-700 hover:bg-canvas-200 transition-colors border border-transparent hover:border-slate-300"
           >
-            <Bell className="h-5.5 w-5.5" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-brand-600 text-[10px] font-bold text-white flex items-center justify-center rounded-full">
-                {unreadCount}
-              </span>
-            )}
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
           </button>
 
-          {/* Notifications Dropdown Panel */}
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-3 w-80 bg-slatebg-900 border border-slatebg-800 rounded-xl shadow-xl z-50 overflow-hidden animate-slide-up">
-              <div className="px-4 py-3 bg-slatebg-950 border-b border-slatebg-850 flex items-center justify-between">
-                <span className="text-xs font-semibold text-white">Notifications ({unreadCount})</span>
-                {unreadCount > 0 && (
-                  <button
-                    onClick={markAllAsRead}
-                    className="text-[11px] font-medium text-brand-400 hover:text-brand-300 flex items-center gap-1 transition-colors"
-                  >
-                    <CheckCheck className="h-3.5 w-3.5" />
-                    <span>Mark all read</span>
-                  </button>
-                )}
-              </div>
-
-              {/* Notification List scroll container */}
-              <div className="max-h-80 overflow-y-auto">
-                {notifications.length === 0 ? (
-                  <div className="p-6 text-center text-slatebg-500 flex flex-col items-center gap-2">
-                    <Inbox className="h-8 w-8 stroke-[1.2]" />
-                    <span className="text-xs">No notifications yet</span>
-                  </div>
-                ) : (
-                  notifications.map((notif) => (
-                    <div
-                      key={notif.id}
-                      onClick={() => handleNotificationClick(notif)}
-                      className={`px-4 py-3 border-b border-slatebg-850/60 cursor-pointer transition-colors hover:bg-slatebg-850 flex flex-col gap-0.5 ${
-                        !notif.is_read ? 'bg-brand-950/10 border-l-2 border-brand-500' : ''
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-semibold text-white truncate">{notif.title}</span>
-                        <span className="text-[9px] text-slatebg-500 shrink-0">
-                          {new Date(notif.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                      </div>
-                      <p className="text-xs text-slatebg-400 line-clamp-2">{notif.content}</p>
-                    </div>
-                  ))
-                )}
-              </div>
+          {/* Search Bar (Glassy & Light) */}
+          <div className="relative w-full max-w-md group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search className="h-4.5 w-4.5 transition-colors text-slate-600" />
             </div>
-          )}
+            <input
+              type="text"
+              placeholder="Search researchers, projects, events..."
+              value={searchValue}
+              onChange={(e) => onSearch(e.target.value)}
+              className="w-full pl-11 pr-4 py-2.5 border rounded-2xl text-sm placeholder-slate-500 focus:outline-none transition-all duration-300 shadow-sm font-medium bg-slate-50 border-slate-300 text-slate-900 focus:border-blue-300 focus:bg-white focus:ring-[3px] focus:ring-blue-600/10"
+            />
+          </div>
+        </div>
+
+        {/* Right Section */}
+        <div className="flex items-center gap-4">
+          
+          {/* Notifications Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              className="relative p-2.5 rounded-xl text-slate-700 hover:bg-canvas-200 transition-all duration-300 hover:shadow-sm border border-transparent hover:border-slate-300 group"
+            >
+              <Bell className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" />
+              {unreadCount > 0 && (
+                <span className="absolute top-2 right-2 h-2.5 w-2.5 bg-red-500 rounded-full border-2 border-canvas-50 animate-pulse" />
+              )}
+            </button>
+
+            {/* Dropdown Menu */}
+            {showDropdown && (
+              <div className="absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl shadow-[0_12px_40px_rgba(101,146,135,0.15)] bg-canvas-50/95 backdrop-blur-xl border border-slate-300 animate-slide-up origin-top-right overflow-hidden">
+                <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-canvas-100/50">
+                  <h3 className="font-bold text-canvas-800 font-display text-sm flex items-center gap-2">
+                    Notifications
+                    {unreadCount > 0 && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] uppercase tracking-widest font-bold bg-blue-100 text-blue-800">
+                        {unreadCount} New
+                      </span>
+                    )}
+                  </h3>
+                  {unreadCount > 0 && (
+                    <button
+                      onClick={markAllAsRead}
+                      className="text-xs font-semibold flex items-center gap-1 transition-colors text-blue-600 hover:text-blue-700"
+                    >
+                      <CheckCheck className="h-3.5 w-3.5" /> Mark all read
+                    </button>
+                  )}
+                </div>
+
+                <div className="max-h-[28rem] overflow-y-auto overscroll-contain">
+                  {notifications.length === 0 ? (
+                    <div className="p-8 text-center flex flex-col items-center justify-center">
+                      <div className="w-12 h-12 rounded-full bg-canvas-100 flex items-center justify-center mb-3">
+                        <Inbox className="h-6 w-6 text-slate-600" />
+                      </div>
+                      <p className="text-sm font-semibold">All caught up!</p>
+                      <p className="text-xs mt-1">No new notifications right now.</p>
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-canvas-200/50">
+                      {notifications.map(notif => (
+                        <div
+                          key={notif.id}
+                          className={`p-4 transition-all duration-300 hover:bg-slate-50 cursor-pointer group ${!notif.is_read ? 'bg-blue-50/60' : 'bg-transparent'}`}
+                          onClick={() => !notif.is_read && markAsRead(notif.id)}
+                        >
+                          <div className="flex gap-3">
+                            <div className={`mt-1 h-2 w-2 rounded-full shrink-0 ${!notif.is_read ? 'bg-blue-600 shadow-[0_0_6px_rgba(37,99,235,0.4)]' : 'bg-transparent shadow-none'}`} />
+                            <div className="flex-1 min-w-0">
+                              <p className={`text-sm leading-tight ${!notif.is_read ? 'font-bold text-canvas-900' : 'text-slate-800'}`}>
+                                {notif.content}
+                              </p>
+                              <p className="text-[10px] font-semibold uppercase tracking-widest mt-2">
+                                {new Date(notif.created_at).toLocaleString()}
+                              </p>
+                            </div>
+                            <ChevronRight className="h-4 w-4 text-slate-600 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all self-center" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
@@ -130,4 +122,3 @@ const Navbar = ({ currentTab, onSearch, searchValue }) => {
 };
 
 export default Navbar;
-// 

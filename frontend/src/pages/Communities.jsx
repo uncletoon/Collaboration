@@ -188,14 +188,14 @@ const Communities = () => {
       {/* 1. Main Directory Listing */}
       {!selectedComm ? (
         <>
-          <div className="flex justify-between items-center bg-slatebg-900 border border-slatebg-800 p-6 rounded-2xl">
+          <div className="flex justify-between items-center bg-canvas-50 border border-slate-300 p-6 rounded-2xl">
             <div>
-              <h3 className="text-base font-bold text-white">Academic Communities</h3>
-              <p className="text-xs text-slatebg-400 mt-0.5">Explore institutional and cross-institutional forums</p>
+              <h3 className="text-base font-bold text-canvas-900">Academic Communities</h3>
+              <p className="text-xs mt-0.5">Explore institutional and cross-institutional forums</p>
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
             >
               <Plus className="h-4.5 w-4.5" />
               <span>Create Forum</span>
@@ -203,9 +203,9 @@ const Communities = () => {
           </div>
 
           {loading ? (
-            <div className="text-center p-12 text-slatebg-400 text-xs">Loading academic communities...</div>
+            <div className="text-center p-12 text-slate-700 text-xs">Loading academic communities...</div>
           ) : communities.length === 0 ? (
-            <div className="bg-slatebg-900 border border-slatebg-850 rounded-xl p-12 text-center text-slatebg-500 text-xs">
+            <div className="bg-canvas-50 border border-slate-200 rounded-xl p-12 text-center text-slate-600 text-xs">
               No academic communities found. Be the first to build a community!
             </div>
           ) : (
@@ -214,11 +214,11 @@ const Communities = () => {
                 <div
                   key={comm.id}
                   onClick={() => selectCommunity(comm)}
-                  className="bg-slatebg-900 border border-slatebg-800 hover:border-slatebg-700 p-5 rounded-xl transition-all cursor-pointer flex flex-col justify-between h-48 hover:translate-y-[-2px]"
+                  className="bg-canvas-50 border border-slate-300 hover:border-slate-300 p-5 rounded-xl transition-all cursor-pointer flex flex-col justify-between h-48 hover:translate-y-[-2px]"
                 >
                   <div>
                     <div className="flex justify-between items-start gap-2">
-                      <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-brand-950/40 text-brand-400 border border-brand-900/30">
+                      <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-blue-100 text-blue-700 border border-blue-200">
                         {comm.category}
                       </span>
                       {comm.institution_id && (
@@ -227,20 +227,20 @@ const Communities = () => {
                         </span>
                       )}
                     </div>
-                    <h4 className="text-sm font-bold text-white mt-2.5 truncate">{comm.name}</h4>
-                    <p className="text-xs text-slatebg-400 mt-1 line-clamp-2 leading-relaxed">{comm.description}</p>
+                    <h4 className="text-sm font-bold text-canvas-900 mt-2.5 truncate">{comm.name}</h4>
+                    <p className="text-xs mt-1 line-clamp-2 leading-relaxed">{comm.description}</p>
                   </div>
                   
-                  <div className="flex justify-between items-center pt-3 border-t border-slatebg-850">
-                    <span className="text-[10px] text-slatebg-500 font-medium">
+                  <div className="flex justify-between items-center pt-3 border-t border-slate-200">
+                    <span className="text-[10px] text-slate-600 font-medium">
                       👥 {comm.member_count} members
                     </span>
                     <button
                       onClick={(e) => handleToggleJoin(e, comm.id)}
                       className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-colors ${
                         comm.is_member
-                          ? 'bg-slatebg-800 text-slatebg-300 hover:bg-red-950/20 hover:text-red-400'
-                          : 'bg-brand-600 hover:bg-brand-500 text-white'
+                          ? 'bg-canvas-300 text-slate-800 hover:bg-red-950/20 hover:text-red-400'
+                          : 'bg-blue-600 hover:bg-blue-500 text-white'
                       }`}
                     >
                       {comm.is_member ? 'Leave' : 'Join Forum'}
@@ -255,29 +255,29 @@ const Communities = () => {
         /* 2. Specific Community Feed View */
         <div className="space-y-6">
           {/* Header row */}
-          <div className="flex items-center gap-4 bg-slatebg-900 border border-slatebg-800 p-5 rounded-2xl">
+          <div className="flex items-center gap-4 bg-canvas-50 border border-slate-300 p-5 rounded-2xl">
             <button
               onClick={() => { setSelectedComm(null); loadCommunities(); }}
-              className="p-2 rounded-lg bg-slatebg-950 hover:bg-slatebg-800 text-slatebg-400 hover:text-white transition-colors"
+              className="p-2 rounded-lg bg-canvas-100 hover:bg-canvas-300 text-slate-700 hover:text-canvas-900 transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <div className="flex-1 overflow-hidden">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-base font-bold text-white truncate">{selectedComm.name}</h3>
-                <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded bg-brand-950/40 text-brand-400">
+                <h3 className="text-base font-bold text-canvas-900 truncate">{selectedComm.name}</h3>
+                <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded bg-blue-100 text-blue-700">
                   {selectedComm.category}
                 </span>
               </div>
-              <p className="text-xs text-slatebg-400 mt-0.5 truncate">{selectedComm.description}</p>
+              <p className="text-xs mt-0.5 truncate">{selectedComm.description}</p>
             </div>
             
             <button
               onClick={(e) => handleToggleJoin(e, selectedComm.id)}
               className={`px-4 py-2 text-xs font-semibold rounded-xl transition-colors ${
                 selectedComm.is_member
-                  ? 'bg-slatebg-800 text-slatebg-300 hover:bg-red-950/20 hover:text-red-400'
-                  : 'bg-brand-600 hover:bg-brand-500 text-white'
+                  ? 'bg-canvas-300 text-slate-800 hover:bg-red-950/20 hover:text-red-400'
+                  : 'bg-blue-600 hover:bg-blue-500 text-white'
               }`}
             >
               {selectedComm.is_member ? 'Leave Community' : 'Join Community'}
@@ -289,15 +289,15 @@ const Communities = () => {
             <div className="lg:col-span-2 space-y-6">
               {/* Write new post (only if member) */}
               {selectedComm.is_member ? (
-                <form onSubmit={handleCreatePost} className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5 space-y-4">
-                  <h4 className="text-xs font-semibold text-white uppercase tracking-wider">Write a Post</h4>
+                <form onSubmit={handleCreatePost} className="bg-canvas-50 border border-slate-300 rounded-xl p-5 space-y-4">
+                  <h4 className="text-xs font-semibold text-canvas-900 uppercase tracking-wider">Write a Post</h4>
                   <div className="space-y-3">
                     <input
                       type="text"
                       placeholder="Give your topic an descriptive title..."
                       value={newPostTitle}
                       onChange={(e) => setNewPostTitle(e.target.value)}
-                      className="w-full px-4 py-2 bg-slatebg-950 border border-slatebg-800 rounded-lg text-sm text-white placeholder-slatebg-600 focus:outline-none focus:border-brand-500"
+                      className="w-full px-4 py-2 bg-canvas-100 border border-slate-300 rounded-lg text-sm text-canvas-900 placeholder-slate-500 focus:outline-none focus:border-blue-500"
                       required
                     />
                     <textarea
@@ -305,21 +305,21 @@ const Communities = () => {
                       value={newPostContent}
                       onChange={(e) => setNewPostContent(e.target.value)}
                       rows="3"
-                      className="w-full px-4 py-2 bg-slatebg-950 border border-slatebg-800 rounded-lg text-sm text-white placeholder-slatebg-600 focus:outline-none focus:border-brand-500 resize-none"
+                      className="w-full px-4 py-2 bg-canvas-100 border border-slate-300 rounded-lg text-sm text-canvas-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 resize-none"
                       required
                     />
                   </div>
                   <div className="flex justify-end">
                     <button
                       type="submit"
-                      className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-lg transition-colors"
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors"
                     >
                       Publish Post
                     </button>
                   </div>
                 </form>
               ) : (
-                <div className="bg-slatebg-900/30 border border-slatebg-850 p-5 rounded-xl text-center text-xs text-slatebg-400">
+                <div className="bg-canvas-50/30 border border-slate-200 p-5 rounded-xl text-center text-xs text-slate-700">
                   You must be a member of this community to create posts.
                 </div>
               )}
@@ -327,23 +327,23 @@ const Communities = () => {
               {/* Posts feed */}
               <div className="space-y-4">
                 {posts.length === 0 ? (
-                  <div className="bg-slatebg-900 border border-slatebg-850 rounded-xl p-10 text-center text-xs text-slatebg-550">
+                  <div className="bg-canvas-50 border border-slate-200 rounded-xl p-10 text-center text-xs text-slate-600">
                     No posts published yet in this community feed.
                   </div>
                 ) : (
                   posts.map((post) => (
-                    <div key={post.id} className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5 space-y-4">
+                    <div key={post.id} className="bg-canvas-50 border border-slate-300 rounded-xl p-5 space-y-4">
                       {/* Author Header */}
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
                           <img
                             src={post.author_avatar ? `http://localhost:5000${post.author_avatar}` : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}
                             alt={post.author_name}
-                            className="w-9 h-9 rounded-full border border-slatebg-700 object-cover"
+                            className="w-9 h-9 rounded-full border border-slate-300 object-cover"
                           />
                           <div>
-                            <span className="text-xs font-semibold text-white block">{post.author_name}</span>
-                            <span className="text-[10px] text-slatebg-550 capitalize block">
+                            <span className="text-xs font-semibold text-canvas-900 block">{post.author_name}</span>
+                            <span className="text-[10px] text-slate-600 capitalize block">
                               {post.author_role} • {new Date(post.created_at).toLocaleDateString()}
                             </span>
                           </div>
@@ -353,7 +353,7 @@ const Communities = () => {
                         {(post.user_id === user.id || user.role === 'admin') && (
                           <button
                             onClick={() => handleDeletePost(post.id)}
-                            className="p-1.5 text-slatebg-500 hover:text-red-400 rounded-lg hover:bg-slatebg-850 transition-colors"
+                            className="p-1.5 text-slate-600 hover:text-red-400 rounded-lg hover:bg-canvas-200 transition-colors"
                           >
                             <Trash2 className="h-4.5 w-4.5" />
                           </button>
@@ -362,47 +362,47 @@ const Communities = () => {
 
                       {/* Content */}
                       <div className="space-y-2">
-                        <h4 className="text-sm font-bold text-white">{post.title}</h4>
-                        <p className="text-xs text-slatebg-300 leading-relaxed break-words whitespace-pre-line">{post.content}</p>
+                        <h4 className="text-sm font-bold text-canvas-900">{post.title}</h4>
+                        <p className="text-xs leading-relaxed break-words whitespace-pre-line">{post.content}</p>
                       </div>
 
                       {/* Engagement Bar */}
-                      <div className="flex items-center gap-5 pt-3 border-t border-slatebg-850 text-slatebg-400">
+                      <div className="flex items-center gap-5 pt-3 border-t border-slate-200 text-slate-700">
                         <button
                           onClick={() => handleLikePost(post.id)}
-                          className={`flex items-center gap-1.5 text-xs font-medium hover:text-white transition-colors ${
-                            post.is_liked ? 'text-brand-400' : ''
+                          className={`flex items-center gap-1.5 text-xs font-medium hover:text-canvas-900 transition-colors ${
+                            post.is_liked ? 'text-blue-600' : ''
                           }`}
                         >
-                          <ThumbsUp className={`h-4.5 w-4.5 ${post.is_liked ? 'fill-brand-500/20' : ''}`} />
+                          <ThumbsUp className={`h-4.5 w-4.5 ${post.is_liked ? 'fill-blue-500/20' : ''}`} />
                           <span>{post.like_count} Likes</span>
                         </button>
 
                         <button
                           onClick={() => handleFetchComments(post.id)}
-                          className="flex items-center gap-1.5 text-xs font-medium hover:text-white transition-colors"
+                          className="flex items-center gap-1.5 text-xs font-medium hover:text-canvas-900 transition-colors"
                         >
-                          <MessageSquare className="h-4.5 w-4.5 text-slatebg-500" />
+                          <MessageSquare className="h-4.5 w-4.5 text-slate-600" />
                           <span>{post.comment_count} Comments</span>
                         </button>
                       </div>
 
                       {/* Expanded Comments section */}
                       {activePostComments[post.id] && (
-                        <div className="pt-3 border-t border-slatebg-850/60 space-y-4">
-                          <div className="space-y-3 pl-4 border-l border-slatebg-800">
+                        <div className="pt-3 border-t border-slate-200/60 space-y-4">
+                          <div className="space-y-3 pl-4 border-l border-slate-300">
                             {activePostComments[post.id].length === 0 ? (
-                              <span className="text-[11px] text-slatebg-550 italic block">No comments written yet.</span>
+                              <span className="text-[11px] text-slate-600 italic block">No comments written yet.</span>
                             ) : (
                               activePostComments[post.id].map((comm) => (
                                 <div key={comm.id} className="flex gap-2.5 items-start">
-                                  <CornerDownRight className="h-4 w-4 text-slatebg-600 shrink-0 mt-0.5" />
-                                  <div className="flex-grow bg-slatebg-950/40 p-2.5 rounded-lg border border-slatebg-850/60">
+                                  <CornerDownRight className="h-4 w-4 text-slate-600 shrink-0 mt-0.5" />
+                                  <div className="flex-grow bg-canvas-100 p-2.5 rounded-lg border border-slate-200/60">
                                     <div className="flex items-center gap-2 mb-1">
-                                      <span className="text-[11px] font-bold text-white">{comm.author_name}</span>
-                                      <span className="text-[9px] text-slatebg-500 capitalize">({comm.author_role})</span>
+                                      <span className="text-[11px] font-bold text-canvas-900">{comm.author_name}</span>
+                                      <span className="text-[9px] text-slate-600 capitalize">({comm.author_role})</span>
                                     </div>
-                                    <p className="text-xs text-slatebg-300 break-words leading-normal">{comm.content}</p>
+                                    <p className="text-xs break-words leading-normal">{comm.content}</p>
                                   </div>
                                 </div>
                               ))
@@ -420,12 +420,12 @@ const Communities = () => {
                                 placeholder="Write a comment..."
                                 value={commentInputs[post.id] || ''}
                                 onChange={(e) => setCommentInputs(prev => ({ ...prev, [post.id]: e.target.value }))}
-                                className="flex-1 px-3 py-1.5 bg-slatebg-950 border border-slatebg-800 rounded-lg text-xs text-white placeholder-slatebg-650 focus:outline-none focus:border-brand-500"
+                                className="flex-1 px-3 py-1.5 bg-canvas-100 border border-slate-300 rounded-lg text-xs text-canvas-900 placeholder-slate-500 focus:outline-none focus:border-blue-500"
                                 required
                               />
                               <button
                                 type="submit"
-                                className="px-3 bg-brand-600 hover:bg-brand-500 text-white text-[11px] font-bold rounded-lg transition-colors"
+                                className="px-3 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold rounded-lg transition-colors"
                               >
                                 Send
                               </button>
@@ -440,12 +440,12 @@ const Communities = () => {
             </div>
 
             {/* Right sidebar details (Metadata/Members list) */}
-            <div className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5 space-y-4">
-              <h4 className="text-xs font-semibold text-slatebg-400 uppercase tracking-wider">Forum Members</h4>
+            <div className="bg-canvas-50 border border-slate-300 rounded-xl p-5 space-y-4">
+              <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Forum Members</h4>
               <div className="space-y-3">
                 {/* Dynamically loads members when page is retrieved */}
                 {!selectedComm.is_member ? (
-                  <p className="text-xs text-slatebg-500 italic">Join this community to inspect community member rosters.</p>
+                  <p className="text-xs italic">Join this community to inspect community member rosters.</p>
                 ) : (
                   <div className="max-h-64 overflow-y-auto space-y-2.5">
                     {/* Placeholder loaded during detailed fetch */}
@@ -460,40 +460,40 @@ const Communities = () => {
 
       {/* 3. Create Community Forum Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-slatebg-950/80 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
-          <div className="w-full max-w-md bg-slatebg-900 border border-slatebg-800 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Create Community Forum</h3>
+        <div className="fixed inset-0 bg-canvas-900/50 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
+          <div className="w-full max-w-md bg-canvas-50 border border-slate-300 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
+            <h3 className="text-sm font-bold text-canvas-900 uppercase tracking-wider">Create Community Forum</h3>
             
             <form onSubmit={handleCreateCommunity} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Forum Name *</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Forum Name *</label>
                 <input
                   type="text"
                   placeholder="e.g., Quantum Computing Group"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Description</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Description</label>
                 <textarea
                   placeholder="Explain the purpose of this community..."
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   rows="3"
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white resize-none"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900 resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Category</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Category</label>
                 <select
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm text-canvas-900 focus:outline-none"
                 >
                   <option value="Research">Research Group</option>
                   <option value="Departmental">Departmental Club</option>
@@ -509,9 +509,9 @@ const Communities = () => {
                     id="inst_rest"
                     checked={isInstRestricted}
                     onChange={(e) => setIsInstRestricted(e.target.checked)}
-                    className="rounded bg-slatebg-950 border-slatebg-800 text-brand-600 focus:ring-brand-550"
+                    className="rounded bg-canvas-100 border-slate-300 text-blue-600 focus:ring-blue-550"
                   />
-                  <label htmlFor="inst_rest" className="text-xs text-slatebg-300 select-none">
+                  <label htmlFor="inst_rest" className="text-xs text-slate-800 select-none">
                     Restrict membership to my institution: <span className="font-semibold">{user.institution_name}</span>
                   </label>
                 </div>
@@ -521,13 +521,13 @@ const Communities = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 bg-slatebg-800 hover:bg-slatebg-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-canvas-300 hover:bg-canvas-300 text-canvas-900 text-xs font-semibold rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   Create
                 </button>

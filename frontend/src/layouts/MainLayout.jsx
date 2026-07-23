@@ -1,50 +1,55 @@
-import React from 'react';
-import Sidebar from './Sidebar';
+import React, { useState } from 'react';
 import Navbar from './Navbar';
-import { useNotifications } from '../context/NotificationContext';
-import { X, BellRing } from 'lucide-react';
+import Sidebar from './Sidebar';
 
 const MainLayout = ({ children, currentTab, setCurrentTab, onSearch, searchValue }) => {
-  const { toast, clearToast } = useNotifications();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slatebg-950 flex">
-      {/* Navigation Sidebar */}
-      <Sidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-
-      {/* Main Page Area */}
-      <div className="flex-1 flex flex-col pl-64">
-        {/* Top Header Navbar */}
-        <Navbar 
-          currentTab={currentTab} 
-          onSearch={onSearch} 
-          searchValue={searchValue} 
+    <div className="h-screen bg-canvas-100 flex overflow-hidden relative selection:bg-blue-100 selection:text-blue-900">
+      
+      {/* ── Immersive Light Ambient Background ──────────────────────────────── */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Floating background orbs */}
+        <div 
+          className="absolute -top-[20%] -left-[10%] w-[60%] h-[70%] rounded-full animate-float-slow mix-blend-multiply"
+          style={{
+            background: 'radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 60%)',
+            filter: 'blur(80px)'
+          }}
         />
-
-        {/* Dynamic Page Views */}
-        <main className="flex-grow pt-20 px-8 pb-8 overflow-y-auto">
-          {children}
-        </main>
+        <div 
+          className="absolute top-[30%] -right-[15%] w-[50%] h-[80%] rounded-full animate-float mix-blend-multiply"
+          style={{
+            background: 'radial-gradient(circle, rgba(99,179,237,0.12) 0%, transparent 60%)',
+            filter: 'blur(100px)',
+            animationDelay: '2s'
+          }}
+        />
       </div>
 
-      {/* Real-time Toast Notifications Popup Banner */}
-      {toast && (
-        <div className="fixed top-6 right-6 w-96 bg-slatebg-900 border border-brand-500/30 shadow-2xl shadow-brand-950/40 rounded-xl p-4 z-50 animate-slide-up flex gap-3.5 backdrop-blur-md">
-          <div className="p-2.5 bg-brand-950/40 rounded-lg border border-brand-850 shrink-0 text-brand-400 self-start">
-            <BellRing className="h-5 w-5 animate-bounce" />
+      {/* ── Sidebar (Desktop & Mobile) ──────────────────────────────────────── */}
+      <Sidebar 
+        currentTab={currentTab} 
+        setCurrentTab={setCurrentTab} 
+        mobileOpen={mobileOpen} 
+        setMobileOpen={setMobileOpen} 
+      />
+
+      {/* ── Main Content Area ───────────────────────────────────────────────── */}
+      <div className="flex-1 flex flex-col min-w-0 relative z-10">
+        <Navbar 
+          setMobileOpen={setMobileOpen} 
+          onSearch={onSearch}
+          searchValue={searchValue}
+        />
+        
+        <main className="flex-1 overflow-x-hidden overflow-y-auto px-4 sm:px-6 lg:px-10 py-8 scroll-smooth perspective-1000">
+          <div className="max-w-7xl mx-auto w-full">
+            {children}
           </div>
-          <div className="flex-1 overflow-hidden">
-            <h5 className="text-sm font-semibold text-white truncate">{toast.title}</h5>
-            <p className="text-xs text-slatebg-400 mt-1 leading-normal break-words">{toast.content}</p>
-          </div>
-          <button
-            onClick={clearToast}
-            className="p-1 rounded hover:bg-slatebg-850 text-slatebg-500 hover:text-slatebg-300 self-start transition-colors"
-          >
-            <X className="h-4.5 w-4.5" />
-          </button>
-        </div>
-      )}
+        </main>
+      </div>
     </div>
   );
 };

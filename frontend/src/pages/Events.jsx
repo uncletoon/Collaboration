@@ -118,15 +118,15 @@ const Events = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex justify-between items-center bg-slatebg-900 border border-slatebg-800 p-6 rounded-2xl">
+      <div className="flex justify-between items-center bg-canvas-50 border border-slate-300 p-6 rounded-2xl">
         <div>
-          <h3 className="text-base font-bold text-white">Academic Seminars & Events</h3>
-          <p className="text-xs text-slatebg-400 mt-0.5">Register for webinars, defense presentations, and collaborative workshops</p>
+          <h3 className="text-base font-bold text-canvas-900">Academic Seminars & Events</h3>
+          <p className="text-xs mt-0.5">Register for webinars, defense presentations, and collaborative workshops</p>
         </div>
         {canSchedule && (
           <button
             onClick={() => setShowCreateModal(true)}
-            className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
           >
             <Plus className="h-4.5 w-4.5" />
             <span>Schedule Event</span>
@@ -135,9 +135,9 @@ const Events = () => {
       </div>
 
       {loading ? (
-        <div className="text-center p-12 text-slatebg-400 text-xs">Loading upcoming academic events...</div>
+        <div className="text-center p-12 text-slate-700 text-xs">Loading upcoming academic events...</div>
       ) : events.length === 0 ? (
-        <div className="bg-slatebg-900 border border-slatebg-850 rounded-xl p-12 text-center text-slatebg-500 text-xs">
+        <div className="bg-canvas-50 border border-slate-200 rounded-xl p-12 text-center text-slate-600 text-xs">
           No academic events are currently scheduled.
         </div>
       ) : (
@@ -153,15 +153,15 @@ const Events = () => {
                 <div
                   key={e.id}
                   onClick={() => loadEventDetails(e.id)}
-                  className={`bg-slatebg-900 border p-5 rounded-xl transition-all cursor-pointer flex flex-col md:flex-row justify-between gap-4 ${
+                  className={`bg-canvas-50 border p-5 rounded-xl transition-all cursor-pointer flex flex-col md:flex-row justify-between gap-4 ${
                     selectedEvent && selectedEvent.event.id === e.id
-                      ? 'border-brand-500 shadow shadow-brand-950/20'
-                      : 'border-slatebg-800 hover:border-slatebg-700'
+                      ? 'border-blue-500 shadow shadow-blue-950/20'
+                      : 'border-slate-300 hover:border-slate-300'
                   }`}
                 >
                   <div className="space-y-2 flex-grow">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h4 className="text-sm font-bold text-white leading-snug">{e.title}</h4>
+                      <h4 className="text-sm font-bold text-canvas-900 leading-snug">{e.title}</h4>
                       {e.institution_id && (
                         <span className="px-2 py-0.5 text-[8px] font-bold bg-amber-950/40 text-amber-400 border border-amber-900/30 rounded flex items-center gap-0.5">
                           <Lock className="h-2.5 w-2.5" /> Restricted
@@ -169,25 +169,25 @@ const Events = () => {
                       )}
                     </div>
                     
-                    <p className="text-xs text-slatebg-400 line-clamp-2 leading-relaxed">{e.description}</p>
+                    <p className="text-xs line-clamp-2 leading-relaxed">{e.description}</p>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] text-slatebg-500 font-medium">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] text-slate-600 font-medium">
                       <span className="flex items-center gap-1.5 truncate">
-                        <Clock className="h-3.5 w-3.5 text-slatebg-550 shrink-0" />
+                        <Clock className="h-3.5 w-3.5 text-slate-600 shrink-0" />
                         {eventDateObj.toLocaleDateString()} {eventDateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                       <span className="flex items-center gap-1.5 truncate">
-                        <MapPin className="h-3.5 w-3.5 text-slatebg-550 shrink-0" />
+                        <MapPin className="h-3.5 w-3.5 text-slate-600 shrink-0" />
                         {e.location}
                       </span>
                     </div>
                   </div>
 
                   {/* Register Callout button */}
-                  <div className="flex flex-row md:flex-col justify-between items-center shrink-0 border-t md:border-t-0 md:border-l border-slatebg-850 pt-3 md:pt-0 md:pl-5 gap-3">
+                  <div className="flex flex-row md:flex-col justify-between items-center shrink-0 border-t md:border-t-0 md:border-l border-slate-200 pt-3 md:pt-0 md:pl-5 gap-3">
                     <div className="text-center md:w-28">
-                      <span className="text-[10px] text-slatebg-500 font-medium block">Occupancy</span>
-                      <span className="text-sm font-bold text-white block mt-0.5">
+                      <span className="text-[10px] text-slate-600 font-medium block">Occupancy</span>
+                      <span className="text-sm font-bold text-canvas-900 block mt-0.5">
                         {e.registered_count} / {e.capacity}
                       </span>
                     </div>
@@ -202,10 +202,10 @@ const Events = () => {
                         disabled={isFull && !e.is_registered}
                         className={`w-full py-1.5 px-3 text-[10px] font-bold rounded-lg uppercase tracking-wider text-center transition-colors ${
                           e.is_registered
-                            ? 'bg-slatebg-800 text-slatebg-300 hover:bg-red-950/20 hover:text-red-400'
+                            ? 'bg-canvas-300 text-slate-800 hover:bg-red-950/20 hover:text-red-400'
                             : isFull
-                            ? 'bg-slatebg-850 text-slatebg-600 cursor-not-allowed'
-                            : 'bg-brand-600 hover:bg-brand-500 text-white'
+                            ? 'bg-canvas-200 text-slate-600 cursor-not-allowed'
+                            : 'bg-blue-600 hover:bg-blue-500 text-white'
                         }`}
                       >
                         {e.is_registered ? 'Leave' : isFull ? 'Full Booked' : 'Register'}
@@ -218,21 +218,21 @@ const Events = () => {
           </div>
 
           {/* Details Sidebar panel (Attendees list) */}
-          <div className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5 space-y-5">
+          <div className="bg-canvas-50 border border-slate-300 rounded-xl p-5 space-y-5">
             {selectedEvent ? (
               <>
-                <div className="flex justify-between items-start gap-3 border-b border-slatebg-800 pb-3.5">
+                <div className="flex justify-between items-start gap-3 border-b border-slate-300 pb-3.5">
                   <div>
-                    <span className="text-[10px] text-brand-400 font-bold block">Organizer</span>
-                    <span className="text-xs font-semibold text-white block mt-0.5">{selectedEvent.event.organizer_name}</span>
-                    <span className="text-[9px] text-slatebg-500 font-medium block">{selectedEvent.event.institution_name || 'All Institutions'}</span>
+                    <span className="text-[10px] text-blue-600 font-bold block">Organizer</span>
+                    <span className="text-xs font-semibold text-canvas-900 block mt-0.5">{selectedEvent.event.organizer_name}</span>
+                    <span className="text-[9px] text-slate-600 font-medium block">{selectedEvent.event.institution_name || 'All Institutions'}</span>
                   </div>
 
                   {/* Cancel Event button for owner / admin */}
                   {(selectedEvent.event.organizer_id === user.id || user.role === 'admin') && (
                     <button
                       onClick={() => handleDeleteEvent(selectedEvent.event.id)}
-                      className="p-1.5 text-slatebg-500 hover:text-red-400 rounded-lg hover:bg-slatebg-850 transition-colors"
+                      className="p-1.5 text-slate-600 hover:text-red-400 rounded-lg hover:bg-canvas-200 transition-colors"
                       title="Cancel Event"
                     >
                       <Trash2 className="h-4.5 w-4.5" />
@@ -241,9 +241,9 @@ const Events = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold text-slatebg-400 uppercase tracking-wider">Registered Attendees ({selectedEvent.attendees.length})</h4>
+                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Registered Attendees ({selectedEvent.attendees.length})</h4>
                   {selectedEvent.attendees.length === 0 ? (
-                    <p className="text-xs text-slatebg-500 italic">No attendees signed up yet.</p>
+                    <p className="text-xs italic">No attendees signed up yet.</p>
                   ) : (
                     <div className="space-y-3 max-h-72 overflow-y-auto">
                       {selectedEvent.attendees.map((att) => (
@@ -254,8 +254,8 @@ const Events = () => {
                             className="w-8 h-8 rounded-full object-cover"
                           />
                           <div>
-                            <span className="text-xs font-semibold text-white block">{att.full_name}</span>
-                            <span className="text-[9px] text-slatebg-500 capitalize block">({att.role})</span>
+                            <span className="text-xs font-semibold text-canvas-900 block">{att.full_name}</span>
+                            <span className="text-[9px] text-slate-600 capitalize block">({att.role})</span>
                           </div>
                         </div>
                       ))}
@@ -264,7 +264,7 @@ const Events = () => {
                 </div>
               </>
             ) : (
-              <div className="text-center p-8 text-xs text-slatebg-500">
+              <div className="text-center p-8 text-xs text-slate-600">
                 Select an event from the stream list to inspect details and attendee rosters.
               </div>
             )}
@@ -274,66 +274,66 @@ const Events = () => {
 
       {/* 3. Schedule Event Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-slatebg-950/80 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
-          <div className="w-full max-w-md bg-slatebg-900 border border-slatebg-800 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Schedule Academic Event</h3>
+        <div className="fixed inset-0 bg-canvas-900/50 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
+          <div className="w-full max-w-md bg-canvas-50 border border-slate-300 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
+            <h3 className="text-sm font-bold text-canvas-900 uppercase tracking-wider">Schedule Academic Event</h3>
 
             <form onSubmit={handleCreateEvent} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Event Title *</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Event Title *</label>
                 <input
                   type="text"
                   placeholder="e.g., Thesis Defense: Neural Fields"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Description</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Description</label>
                 <textarea
                   placeholder="Outline the schedule, presentation abstract, or topics..."
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   rows="3"
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white resize-none"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900 resize-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Date & Time *</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Date & Time *</label>
                   <input
                     type="datetime-local"
                     value={newDate}
                     onChange={(e) => setNewDate(e.target.value)}
-                    className="w-full px-3 py-2 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 bg-canvas-100 border border-slate-300 rounded-xl text-xs text-canvas-900 focus:outline-none focus:border-blue-500"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Max Capacity</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Max Capacity</label>
                   <input
                     type="number"
                     min="1"
                     value={newCapacity}
                     onChange={(e) => setNewCapacity(e.target.value)}
-                    className="w-full px-3 py-2 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 bg-canvas-100 border border-slate-300 rounded-xl text-xs text-canvas-900 focus:outline-none focus:border-blue-500"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Location / Link *</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Location / Link *</label>
                 <input
                   type="text"
                   placeholder="e.g., Auditorium B / Zoom Link"
                   value={newLoc}
                   onChange={(e) => setNewLoc(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900"
                   required
                 />
               </div>
@@ -345,9 +345,9 @@ const Events = () => {
                     id="event_inst_rest"
                     checked={isInstOnly}
                     onChange={(e) => setIsInstOnly(e.target.checked)}
-                    className="rounded bg-slatebg-950 border-slatebg-800 text-brand-600 focus:ring-brand-550"
+                    className="rounded bg-canvas-100 border-slate-300 text-blue-600 focus:ring-blue-550"
                   />
-                  <label htmlFor="event_inst_rest" className="text-xs text-slatebg-300 select-none">
+                  <label htmlFor="event_inst_rest" className="text-xs text-slate-800 select-none">
                     Restrict registrations to: <span className="font-semibold">{user.institution_name}</span>
                   </label>
                 </div>
@@ -357,13 +357,13 @@ const Events = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 bg-slatebg-800 hover:bg-slatebg-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-canvas-300 hover:bg-canvas-300 text-canvas-900 text-xs font-semibold rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   Schedule
                 </button>

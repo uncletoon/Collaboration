@@ -168,14 +168,14 @@ const Projects = () => {
       {/* 1. Projects Directory */}
       {!selectedProj ? (
         <>
-          <div className="flex justify-between items-center bg-slatebg-900 border border-slatebg-800 p-6 rounded-2xl">
+          <div className="flex justify-between items-center bg-canvas-50 border border-slate-300 p-6 rounded-2xl">
             <div>
-              <h3 className="text-base font-bold text-white">Collaborative Research Projects</h3>
-              <p className="text-xs text-slatebg-400 mt-0.5">Manage shared files, tasks, and cross-institutional project teams</p>
+              <h3 className="text-base font-bold text-canvas-900">Collaborative Research Projects</h3>
+              <p className="text-xs mt-0.5">Manage shared files, tasks, and cross-institutional project teams</p>
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition-colors flex items-center gap-1.5"
             >
               <Plus className="h-4.5 w-4.5" />
               <span>New Collaboration</span>
@@ -183,9 +183,9 @@ const Projects = () => {
           </div>
 
           {loading ? (
-            <div className="text-center p-12 text-slatebg-400 text-xs">Loading projects...</div>
+            <div className="text-center p-12 text-slate-700 text-xs">Loading projects...</div>
           ) : projects.length === 0 ? (
-            <div className="bg-slatebg-900 border border-slatebg-850 rounded-xl p-12 text-center text-slatebg-500 text-xs">
+            <div className="bg-canvas-50 border border-slate-200 rounded-xl p-12 text-center text-slate-600 text-xs">
               No collaborative projects found. Click "New Collaboration" to initialize a project workspace.
             </div>
           ) : (
@@ -194,25 +194,25 @@ const Projects = () => {
                 <div
                   key={proj.id}
                   onClick={() => loadProjectDetails(proj.id)}
-                  className="bg-slatebg-900 border border-slatebg-800 hover:border-slatebg-700 p-5 rounded-xl transition-all cursor-pointer flex flex-col justify-between h-44 hover:translate-y-[-2px]"
+                  className="bg-canvas-50 border border-slate-300 hover:border-slate-300 p-5 rounded-xl transition-all cursor-pointer flex flex-col justify-between h-44 hover:translate-y-[-2px]"
                 >
                   <div className="space-y-1">
                     <div className="flex justify-between items-start gap-2">
-                      <h4 className="text-sm font-bold text-white truncate max-w-sm">{proj.title}</h4>
+                      <h4 className="text-sm font-bold text-canvas-900 truncate max-w-sm">{proj.title}</h4>
                       <span className={`px-2 py-0.5 text-[9px] font-bold rounded-md uppercase tracking-wider ${
-                        proj.status === 'active' ? 'bg-brand-950/50 text-brand-400 border border-brand-900/30' : 
-                        proj.status === 'completed' ? 'bg-emerald-950/40 text-emerald-400 border border-emerald-900/30' : 
-                        'bg-slatebg-850 text-slatebg-400 border border-slatebg-800'
+                        proj.status === 'active' ? 'bg-blue-100 text-blue-700 border border-blue-200' : 
+                        proj.status === 'completed' ? 'bg-slate-100 text-slate-700 border border-slate-200' : 
+                        'bg-canvas-200 text-slate-700 border border-slate-300'
                       }`}>
                         {proj.status}
                       </span>
                     </div>
-                    <p className="text-xs text-slatebg-400 line-clamp-2 leading-relaxed mt-1.5">{proj.description}</p>
+                    <p className="text-xs line-clamp-2 leading-relaxed mt-1.5">{proj.description}</p>
                   </div>
 
-                  <div className="flex justify-between items-center pt-3 border-t border-slatebg-850 text-[10px] text-slatebg-500">
+                  <div className="flex justify-between items-center pt-3 border-t border-slate-200 text-[10px] text-slate-600">
                     <span>Manager: {proj.creator_name}</span>
-                    <span className="font-semibold text-slatebg-400">👤 {proj.member_count} team members</span>
+                    <span className="font-semibold text-slate-700">👤 {proj.member_count} team members</span>
                   </div>
                 </div>
               ))}
@@ -223,26 +223,26 @@ const Projects = () => {
         /* 2. Detailed Workspace View */
         <div className="space-y-6">
           {/* Header row */}
-          <div className="flex items-center gap-4 bg-slatebg-900 border border-slatebg-800 p-5 rounded-2xl">
+          <div className="flex items-center gap-4 bg-canvas-50 border border-slate-300 p-5 rounded-2xl">
             <button
               onClick={() => { setSelectedProj(null); loadProjects(); }}
-              className="p-2 rounded-lg bg-slatebg-950 hover:bg-slatebg-800 text-slatebg-400 hover:text-white transition-colors"
+              className="p-2 rounded-lg bg-canvas-100 hover:bg-canvas-300 text-slate-700 hover:text-canvas-900 transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <div className="flex-1 overflow-hidden">
-              <h3 className="text-base font-bold text-white truncate">{selectedProj.title}</h3>
-              <p className="text-xs text-slatebg-400 mt-0.5 truncate">{selectedProj.description}</p>
+              <h3 className="text-base font-bold text-canvas-900 truncate">{selectedProj.title}</h3>
+              <p className="text-xs mt-0.5 truncate">{selectedProj.description}</p>
             </div>
 
             {/* Status switcher for Lead */}
             {isLead ? (
               <div className="flex items-center gap-2">
-                <Settings className="h-4.5 w-4.5 text-slatebg-400" />
+                <Settings className="h-4.5 w-4.5 text-slate-700" />
                 <select
                   value={projectStatus}
                   onChange={handleStatusChange}
-                  className="bg-slatebg-950 border border-slatebg-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none"
+                  className="bg-canvas-100 border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-canvas-900 focus:outline-none"
                 >
                   <option value="planning">Status: Planning</option>
                   <option value="active">Status: Active</option>
@@ -250,7 +250,7 @@ const Projects = () => {
                 </select>
               </div>
             ) : (
-              <span className="px-3 py-1.5 text-xs bg-slatebg-800 text-slatebg-300 rounded-xl">
+              <span className="px-3 py-1.5 text-xs bg-canvas-300 text-slate-800 rounded-xl">
                 Status: <span className="capitalize font-semibold">{projectStatus}</span>
               </span>
             )}
@@ -260,21 +260,21 @@ const Projects = () => {
             {/* Left section: Files workspace */}
             <div className="lg:col-span-2 space-y-6">
               {/* File upload drawer */}
-              <div className="bg-slatebg-900 border border-slatebg-800 p-5 rounded-xl space-y-4">
-                <h4 className="text-xs font-semibold text-white uppercase tracking-wider">Project Files Shared</h4>
+              <div className="bg-canvas-50 border border-slate-300 p-5 rounded-xl space-y-4">
+                <h4 className="text-xs font-semibold text-canvas-900 uppercase tracking-wider">Project Files Shared</h4>
                 
                 <form onSubmit={handleFileUpload} className="flex flex-col sm:flex-row gap-3">
                   <input
                     type="file"
                     id="projFileInput"
                     onChange={(e) => setUploadFile(e.target.files[0])}
-                    className="flex-grow text-xs text-slatebg-400 bg-slatebg-950 p-2 border border-slatebg-850 rounded-lg cursor-pointer file:mr-4 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-slatebg-800 file:text-white file:cursor-pointer focus:outline-none"
+                    className="flex-grow text-xs text-slate-700 bg-canvas-100 p-2 border border-slate-200 rounded-lg cursor-pointer file:mr-4 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[10px] file:font-semibold file:bg-canvas-300 file:text-canvas-900 file:cursor-pointer focus:outline-none"
                     required
                   />
                   <button
                     type="submit"
                     disabled={uploading || !uploadFile}
-                    className="px-4 py-2 bg-brand-600 hover:bg-brand-500 disabled:bg-brand-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     {uploading ? 'Uploading...' : 'Upload File'}
                   </button>
@@ -282,21 +282,21 @@ const Projects = () => {
               </div>
 
               {/* Files list */}
-              <div className="bg-slatebg-900 border border-slatebg-800 p-5 rounded-xl space-y-3">
+              <div className="bg-canvas-50 border border-slate-300 p-5 rounded-xl space-y-3">
                 {projFiles.length === 0 ? (
-                  <div className="text-center p-8 text-xs text-slatebg-550 italic">No files shared in this project workspace yet.</div>
+                  <div className="text-center p-8 text-xs text-slate-600 italic">No files shared in this project workspace yet.</div>
                 ) : (
                   <div className="space-y-3">
                     {projFiles.map((file) => (
                       <div
                         key={file.id}
-                        className="flex items-center justify-between gap-4 p-3 bg-slatebg-950/40 border border-slatebg-850/60 rounded-xl hover:border-slatebg-800 transition-colors"
+                        className="flex items-center justify-between gap-4 p-3 bg-canvas-100 border border-slate-200/60 rounded-xl hover:border-slate-300 transition-colors"
                       >
                         <div className="flex items-center gap-3 overflow-hidden">
-                          <FileText className="h-5 w-5 text-brand-400 shrink-0" />
+                          <FileText className="h-5 w-5 text-blue-600 shrink-0" />
                           <div className="overflow-hidden">
-                            <span className="text-xs font-bold text-white block truncate max-w-sm md:max-w-md">{file.filename}</span>
-                            <span className="text-[10px] text-slatebg-500 block">
+                            <span className="text-xs font-bold text-canvas-900 block truncate max-w-sm md:max-w-md">{file.filename}</span>
+                            <span className="text-[10px] text-slate-600 block">
                               Uploaded by {file.uploaded_by_name} • {new Date(file.uploaded_at).toLocaleDateString()}
                             </span>
                           </div>
@@ -309,7 +309,7 @@ const Projects = () => {
                             download={file.filename}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-1.5 bg-slatebg-800 hover:bg-slatebg-700 text-slatebg-300 hover:text-white rounded-lg transition-colors"
+                            className="p-1.5 bg-canvas-300 hover:bg-canvas-300 text-slate-800 hover:text-canvas-900 rounded-lg transition-colors"
                           >
                             <Download className="h-4.5 w-4.5" />
                           </a>
@@ -317,7 +317,7 @@ const Projects = () => {
                           {(file.uploaded_by === user.id || isLead) && (
                             <button
                               onClick={() => handleDeleteFile(file.id)}
-                              className="p-1.5 bg-slatebg-800 hover:bg-red-950/30 text-slatebg-500 hover:text-red-400 rounded-lg transition-colors"
+                              className="p-1.5 bg-canvas-300 hover:bg-red-950/30 text-slate-600 hover:text-red-400 rounded-lg transition-colors"
                             >
                               <Trash2 className="h-4.5 w-4.5" />
                             </button>
@@ -331,13 +331,13 @@ const Projects = () => {
             </div>
 
             {/* Right section: Team Members */}
-            <div className="bg-slatebg-900 border border-slatebg-800 p-5 rounded-xl space-y-4">
-              <div className="flex justify-between items-center border-b border-slatebg-800 pb-3">
-                <h4 className="text-xs font-semibold text-slatebg-400 uppercase tracking-wider">Project Team</h4>
+            <div className="bg-canvas-50 border border-slate-300 p-5 rounded-xl space-y-4">
+              <div className="flex justify-between items-center border-b border-slate-300 pb-3">
+                <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Project Team</h4>
                 {isLead && (
                   <button
                     onClick={openInvitePanel}
-                    className="p-1.5 text-brand-400 hover:bg-slatebg-850 hover:text-brand-300 rounded-lg transition-colors flex items-center gap-1"
+                    className="p-1.5 text-blue-600 hover:bg-canvas-200 hover:text-blue-300 rounded-lg transition-colors flex items-center gap-1"
                   >
                     <UserPlus className="h-4.5 w-4.5" />
                   </button>
@@ -354,8 +354,8 @@ const Projects = () => {
                         className="w-8.5 h-8.5 rounded-full object-cover"
                       />
                       <div>
-                        <span className="text-xs font-bold text-white block">{member.full_name}</span>
-                        <span className="text-[10px] text-slatebg-500 capitalize block">({member.project_role})</span>
+                        <span className="text-xs font-bold text-canvas-900 block">{member.full_name}</span>
+                        <span className="text-[10px] text-slate-600 capitalize block">({member.project_role})</span>
                       </div>
                     </div>
 
@@ -378,31 +378,31 @@ const Projects = () => {
 
       {/* 3. Create Project Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-slatebg-950/80 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
-          <div className="w-full max-w-md bg-slatebg-900 border border-slatebg-800 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Initialize Project Collaboration</h3>
+        <div className="fixed inset-0 bg-canvas-900/50 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
+          <div className="w-full max-w-md bg-canvas-50 border border-slate-300 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
+            <h3 className="text-sm font-bold text-canvas-900 uppercase tracking-wider">Initialize Project Collaboration</h3>
             
             <form onSubmit={handleCreateProject} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Project Title *</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Project Title *</label>
                 <input
                   type="text"
                   placeholder="e.g., Deep Learning in Astro-Physics"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Description</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Description</label>
                 <textarea
                   placeholder="Outline the goals, dependencies, and timelines for this research team..."
                   value={newDesc}
                   onChange={(e) => setNewDesc(e.target.value)}
                   rows="3"
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white resize-none"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900 resize-none"
                 />
               </div>
 
@@ -410,13 +410,13 @@ const Projects = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-4 py-2 bg-slatebg-800 hover:bg-slatebg-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-canvas-300 hover:bg-canvas-300 text-canvas-900 text-xs font-semibold rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   Create
                 </button>
@@ -428,17 +428,17 @@ const Projects = () => {
 
       {/* 4. Team Member Invitation Modal */}
       {showInviteModal && (
-        <div className="fixed inset-0 bg-slatebg-950/80 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
-          <div className="w-full max-w-md bg-slatebg-900 border border-slatebg-800 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Invite Academic Collaborator</h3>
+        <div className="fixed inset-0 bg-canvas-900/50 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
+          <div className="w-full max-w-md bg-canvas-50 border border-slate-300 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
+            <h3 className="text-sm font-bold text-canvas-900 uppercase tracking-wider">Invite Academic Collaborator</h3>
 
             <form onSubmit={handleAddMember} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Select Academic</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Select Academic</label>
                 <select
                   value={inviteUserId}
                   onChange={(e) => setInviteUserId(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm text-canvas-900 focus:outline-none"
                   required
                 >
                   <option value="">Choose User...</option>
@@ -453,11 +453,11 @@ const Projects = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Project Workspace Role</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Project Workspace Role</label>
                 <select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-sm text-white focus:outline-none"
+                  className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-sm text-canvas-900 focus:outline-none"
                 >
                   <option value="contributor">Contributor (Can upload/delete own files)</option>
                   <option value="observer">Observer (Read-only download access)</option>
@@ -469,13 +469,13 @@ const Projects = () => {
                 <button
                   type="button"
                   onClick={() => setShowInviteModal(false)}
-                  className="px-4 py-2 bg-slatebg-800 hover:bg-slatebg-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-canvas-300 hover:bg-canvas-300 text-canvas-900 text-xs font-semibold rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   Invite
                 </button>

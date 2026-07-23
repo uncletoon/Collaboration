@@ -19,15 +19,32 @@ import Search from './pages/Search';
 
 const AppContent = () => {
   const { user, loading } = useAuth();
-  const [currentTab, setCurrentTab] = useState('dashboard');
+  const getPathTab = () => {
+    const path = window.location.pathname.replace('/', '');
+    return path || 'dashboard';
+  };
+
+  const [currentTab, setCurrentTab] = useState(getPathTab());
   const [searchValue, setSearchValue] = useState('');
   const [showRegister, setShowRegister] = useState(false);
+
+  React.useEffect(() => {
+    const handlePopState = () => {
+      setCurrentTab(getPathTab());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const handleSearch = (value) => {
     setSearchValue(value);
     if (value.trim() !== '') {
-      setCurrentTab('search');
+      if (currentTab !== 'search') {
+        window.history.pushState(null, '', '/search');
+        setCurrentTab('search');
+      }
     } else if (currentTab === 'search') {
+      window.history.pushState(null, '', '/dashboard');
       setCurrentTab('dashboard');
     }
   };
@@ -35,14 +52,31 @@ const AppContent = () => {
   // Switch tabs cleanly resetting searches
   const handleTabChange = (tabId) => {
     setSearchValue('');
-    setCurrentTab(tabId);
+    if (currentTab !== tabId) {
+      window.history.pushState(null, '', '/' + tabId);
+      setCurrentTab(tabId);
+    }
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slatebg-950 flex flex-col justify-center items-center gap-2">
-        <div className="w-10 h-10 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-        <span className="text-xs text-slatebg-400 font-semibold tracking-wider uppercase">Loading Portal...</span>
+      <div 
+        className="min-h-screen flex flex-col justify-center items-center gap-4 bg-canvas-100"
+      >
+        <div className="relative">
+          <div 
+            className="w-12 h-12 rounded-full animate-spin border-4 border-t-blue-600 border-blue-600/20"
+          />
+          <div 
+            className="absolute inset-0 w-12 h-12 rounded-full animate-pulse-glow"
+            style={{ boxShadow: '0 0 20px rgba(101,146,135,0.4)' }}
+          />
+        </div>
+        <span 
+          className="text-xs font-semibold tracking-widest uppercase animate-pulse text-blue-600 font-display"
+        >
+          Loading Portal
+        </span>
       </div>
     );
   }

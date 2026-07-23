@@ -211,24 +211,24 @@ const Chat = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-140px)] bg-slatebg-900 border border-slatebg-800 rounded-2xl overflow-hidden flex animate-fade-in">
+    <div className="h-[calc(100vh-140px)] bg-canvas-50 border border-slate-300 rounded-2xl overflow-hidden flex animate-fade-in">
       {/* 1. Left Room sidebar */}
-      <div className="w-80 border-r border-slatebg-800 flex flex-col justify-between shrink-0 bg-slatebg-900/60">
+      <div className="w-80 border-r border-slate-300 flex flex-col justify-between shrink-0 bg-canvas-50/60">
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Header Controls */}
-          <div className="p-4 border-b border-slatebg-800 flex items-center justify-between">
-            <span className="text-xs font-bold text-white uppercase tracking-wider">Conversations</span>
+          <div className="p-4 border-b border-slate-300 flex items-center justify-between">
+            <span className="text-xs font-bold text-canvas-900 uppercase tracking-wider">Conversations</span>
             <div className="flex gap-1.5">
               <button
                 onClick={openNewDMSelector}
-                className="p-1.5 bg-slatebg-950 border border-slatebg-800 hover:bg-slatebg-800 text-brand-400 rounded-lg transition-colors"
+                className="p-1.5 bg-canvas-100 border border-slate-300 hover:bg-canvas-300 text-blue-600 rounded-lg transition-colors"
                 title="Start DM Chat"
               >
                 <MessageSquarePlus className="h-4.5 w-4.5" />
               </button>
               <button
                 onClick={openGroupSelector}
-                className="p-1.5 bg-slatebg-950 border border-slatebg-800 hover:bg-slatebg-800 text-brand-400 rounded-lg transition-colors"
+                className="p-1.5 bg-canvas-100 border border-slate-300 hover:bg-canvas-300 text-blue-600 rounded-lg transition-colors"
                 title="Create Group Chat"
               >
                 <Users className="h-4.5 w-4.5" />
@@ -239,7 +239,7 @@ const Chat = () => {
           {/* Rooms scrollbar lists */}
           <div className="flex-1 overflow-y-auto p-2 space-y-1">
             {rooms.length === 0 ? (
-              <div className="p-6 text-center text-slatebg-550 text-xs flex flex-col items-center gap-1.5 mt-8">
+              <div className="p-6 text-center text-slate-600 text-xs flex flex-col items-center gap-1.5 mt-8">
                 <Inbox className="h-7 w-7 stroke-[1.2]" />
                 <span>No active chat rooms.</span>
               </div>
@@ -252,23 +252,23 @@ const Chat = () => {
                     onClick={() => setSelectedRoom(room)}
                     className={`p-3 rounded-xl cursor-pointer transition-all flex items-center gap-3 border ${
                       isActive 
-                        ? 'bg-brand-950/20 border-brand-500/35 shadow shadow-brand-900/10' 
-                        : 'border-transparent hover:bg-slatebg-850/65'
+                        ? 'bg-blue-950/20 border-blue-500/35 shadow shadow-blue-900/10' 
+                        : 'border-transparent hover:bg-canvas-200/65'
                     }`}
                   >
                     <img
                       src={getRoomAvatar(room)}
                       alt="avatar"
-                      className="w-10 h-10 rounded-full border border-slatebg-700 object-cover"
+                      className="w-10 h-10 rounded-full border border-slate-300 object-cover"
                     />
                     <div className="overflow-hidden flex-1">
                       <div className="flex justify-between items-center gap-1">
-                        <span className="text-xs font-bold text-white truncate">{getRoomName(room)}</span>
+                        <span className="text-xs font-bold text-canvas-900 truncate">{getRoomName(room)}</span>
                       </div>
-                      <span className="text-[10px] text-brand-400 capitalize font-medium block mt-0.5">{getRoomRole(room)}</span>
+                      <span className="text-[10px] text-blue-600 capitalize font-medium block mt-0.5">{getRoomRole(room)}</span>
                       
                       {room.latest_message?.message && (
-                        <p className="text-[11px] text-slatebg-400 truncate mt-1 leading-normal">
+                        <p className="text-[11px] truncate mt-1 leading-normal">
                           {room.latest_message.sender_id === user.id ? 'You: ' : ''}
                           {room.latest_message.message}
                         </p>
@@ -283,20 +283,20 @@ const Chat = () => {
       </div>
 
       {/* 2. Right messages workspace */}
-      <div className="flex-1 flex flex-col justify-between bg-slatebg-950/20 relative">
+      <div className="flex-1 flex flex-col justify-between bg-canvas-100/20 relative">
         {selectedRoom ? (
           <>
             {/* Header banner */}
-            <div className="h-16 px-6 bg-slatebg-950/50 border-b border-slatebg-800 flex items-center justify-between">
+            <div className="h-16 px-6 bg-canvas-100/50 border-b border-slate-300 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <img
                   src={getRoomAvatar(selectedRoom)}
                   alt="avatar"
-                  className="w-9 h-9 rounded-full border border-slatebg-700 object-cover"
+                  className="w-9 h-9 rounded-full border border-slate-300 object-cover"
                 />
                 <div>
-                  <h4 className="text-xs font-bold text-white">{getRoomName(selectedRoom)}</h4>
-                  <span className="text-[10px] text-brand-400 capitalize block font-medium">{getRoomRole(selectedRoom)}</span>
+                  <h4 className="text-xs font-bold text-canvas-900">{getRoomName(selectedRoom)}</h4>
+                  <span className="text-[10px] text-blue-600 capitalize block font-medium">{getRoomRole(selectedRoom)}</span>
                 </div>
               </div>
             </div>
@@ -304,7 +304,7 @@ const Chat = () => {
             {/* Messages viewport */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {messages.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-slatebg-550 text-xs gap-1.5">
+                <div className="h-full flex flex-col items-center justify-center text-slate-600 text-xs gap-1.5">
                   <MessageCircle className="h-8 w-8 stroke-[1.2]" />
                   <span>No message history. Send a greeting to start chatting!</span>
                 </div>
@@ -322,12 +322,12 @@ const Chat = () => {
                       <img
                         src={msg.sender_avatar ? `http://localhost:5000${msg.sender_avatar}` : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}
                         alt={msg.sender_name}
-                        className="w-7.5 h-7.5 rounded-full border border-slatebg-700 object-cover shrink-0"
+                        className="w-7.5 h-7.5 rounded-full border border-slate-300 object-cover shrink-0"
                       />
 
                       {/* Bubble */}
                       <div className="space-y-0.5">
-                        <div className={`flex items-center gap-1.5 text-[9px] text-slatebg-500 font-medium ${isOwn ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex items-center gap-1.5 text-[9px] text-slate-600 font-medium ${isOwn ? 'flex-row-reverse' : ''}`}>
                           <span>{msg.sender_name}</span>
                           <span>•</span>
                           <span>
@@ -336,8 +336,8 @@ const Chat = () => {
                         </div>
                         <div className={`p-3 rounded-2xl text-xs leading-relaxed break-words whitespace-pre-line ${
                           isOwn 
-                            ? 'bg-brand-600 text-white rounded-tr-none' 
-                            : 'bg-slatebg-900 text-slatebg-100 rounded-tl-none border border-slatebg-850'
+                            ? 'bg-blue-600 text-white rounded-tr-none' 
+                            : 'bg-canvas-50 text-slatebg-100 rounded-tl-none border border-slate-200'
                         }`}>
                           {msg.message}
                         </div>
@@ -352,26 +352,26 @@ const Chat = () => {
             {/* Input field */}
             <form
               onSubmit={handleSendMessage}
-              className="p-4 bg-slatebg-950/50 border-t border-slatebg-800 flex gap-3"
+              className="p-4 bg-canvas-100/50 border-t border-slate-300 flex gap-3"
             >
               <input
                 type="text"
                 placeholder="Type your message..."
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                className="flex-1 px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs text-white placeholder-slatebg-650 focus:outline-none focus:border-brand-500"
+                className="flex-1 px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-xs text-canvas-900 placeholder-slate-500 focus:outline-none focus:border-blue-500"
                 required
               />
               <button
                 type="submit"
-                className="px-4.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl transition-colors flex items-center justify-center shrink-0 shadow"
+                className="px-4.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-colors flex items-center justify-center shrink-0 shadow"
               >
                 <Send className="h-4.5 w-4.5" />
               </button>
             </form>
           </>
         ) : (
-          <div className="h-full flex flex-col items-center justify-center text-slatebg-550 text-xs gap-1.5">
+          <div className="h-full flex flex-col items-center justify-center text-slate-600 text-xs gap-1.5">
             <MessageSquarePlus className="h-10 w-10 stroke-[1.2]" />
             <span>Select a conversation or create a chat room from the sidebar.</span>
           </div>
@@ -380,19 +380,19 @@ const Chat = () => {
 
       {/* 3. New DM Selection Modal */}
       {showDMModal && (
-        <div className="fixed inset-0 bg-slatebg-950/80 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
-          <div className="w-full max-w-sm bg-slatebg-900 border border-slatebg-800 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Start DM Conversation</h3>
+        <div className="fixed inset-0 bg-canvas-900/50 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
+          <div className="w-full max-w-sm bg-canvas-50 border border-slate-300 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
+            <h3 className="text-sm font-bold text-canvas-900 uppercase tracking-wider">Start DM Conversation</h3>
             
             <div className="max-h-72 overflow-y-auto space-y-2">
               {systemUsers.length === 0 ? (
-                <p className="text-xs text-slatebg-500 italic text-center p-4">No other system users found.</p>
+                <p className="text-xs italic text-center p-4">No other system users found.</p>
               ) : (
                 systemUsers.map((u) => (
                   <div
                     key={u.id}
                     onClick={() => startDMRoom(u.id)}
-                    className="p-2.5 rounded-xl border border-slatebg-850 hover:bg-slatebg-850 cursor-pointer flex items-center justify-between transition-colors"
+                    className="p-2.5 rounded-xl border border-slate-200 hover:bg-canvas-200 cursor-pointer flex items-center justify-between transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <img
@@ -401,8 +401,8 @@ const Chat = () => {
                         className="w-8.5 h-8.5 rounded-full object-cover"
                       />
                       <div>
-                        <span className="text-xs font-bold text-white block">{u.full_name}</span>
-                        <span className="text-[9px] text-slatebg-500 capitalize block">({u.role} - {u.institution_name || 'Generic'})</span>
+                        <span className="text-xs font-bold text-canvas-900 block">{u.full_name}</span>
+                        <span className="text-[9px] text-slate-600 capitalize block">({u.role} - {u.institution_name || 'Generic'})</span>
                       </div>
                     </div>
                   </div>
@@ -414,7 +414,7 @@ const Chat = () => {
               <button
                 type="button"
                 onClick={() => setShowDMModal(false)}
-                className="px-4 py-2 bg-slatebg-800 hover:bg-slatebg-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                className="px-4 py-2 bg-canvas-300 hover:bg-canvas-300 text-canvas-900 text-xs font-semibold rounded-lg transition-colors"
               >
                 Close
               </button>
@@ -425,39 +425,39 @@ const Chat = () => {
 
       {/* 4. Group Chat Creator Modal */}
       {showGroupModal && (
-        <div className="fixed inset-0 bg-slatebg-950/80 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
-          <div className="w-full max-w-sm bg-slatebg-900 border border-slatebg-800 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">Initialize Chat Group</h3>
+        <div className="fixed inset-0 bg-canvas-900/50 backdrop-blur-sm flex justify-center items-center p-4 z-50 animate-fade-in">
+          <div className="w-full max-w-sm bg-canvas-50 border border-slate-300 shadow-2xl rounded-2xl p-6 space-y-4 animate-slide-up">
+            <h3 className="text-sm font-bold text-canvas-900 uppercase tracking-wider">Initialize Chat Group</h3>
 
             <form onSubmit={handleCreateGroup} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Group Name *</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Group Name *</label>
                 <input
                   type="text"
                   placeholder="e.g., Deep Learning Study Group"
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
-                  className="w-full px-4 py-2 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs placeholder-slatebg-650 focus:outline-none focus:border-brand-500 text-white"
+                  className="w-full px-4 py-2 bg-canvas-100 border border-slate-300 rounded-xl text-xs placeholder-slate-500 focus:outline-none focus:border-blue-500 text-canvas-900"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Select Members *</label>
-                <div className="max-h-56 overflow-y-auto space-y-2 border border-slatebg-850 p-2.5 rounded-xl bg-slatebg-950">
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Select Members *</label>
+                <div className="max-h-56 overflow-y-auto space-y-2 border border-slate-200 p-2.5 rounded-xl bg-canvas-100">
                   {systemUsers.map((u) => {
                     const isChecked = selectedUserIds.includes(u.id);
                     return (
                       <div
                         key={u.id}
                         onClick={() => toggleGroupCheckbox(u.id)}
-                        className="flex items-center gap-3 p-1.5 rounded hover:bg-slatebg-850 cursor-pointer"
+                        className="flex items-center gap-3 p-1.5 rounded hover:bg-canvas-200 cursor-pointer"
                       >
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => {}} // toggled by container div click
-                          className="rounded bg-slatebg-950 border-slatebg-800 text-brand-600 focus:ring-brand-550"
+                          className="rounded bg-canvas-100 border-slate-300 text-blue-600 focus:ring-blue-550"
                         />
                         <div className="flex items-center gap-2">
                           <img
@@ -466,8 +466,8 @@ const Chat = () => {
                             className="w-7 h-7 rounded-full object-cover"
                           />
                           <div>
-                            <span className="text-[11px] font-bold text-white block">{u.full_name}</span>
-                            <span className="text-[9px] text-slatebg-550 block">({u.role})</span>
+                            <span className="text-[11px] font-bold text-canvas-900 block">{u.full_name}</span>
+                            <span className="text-[9px] text-slate-600 block">({u.role})</span>
                           </div>
                         </div>
                       </div>
@@ -480,14 +480,14 @@ const Chat = () => {
                 <button
                   type="button"
                   onClick={() => setShowGroupModal(false)}
-                  className="px-4 py-2 bg-slatebg-800 hover:bg-slatebg-700 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-canvas-300 hover:bg-canvas-300 text-canvas-900 text-xs font-semibold rounded-lg transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={!groupName || selectedUserIds.length === 0}
-                  className="px-4 py-2 bg-brand-600 hover:bg-brand-500 disabled:bg-brand-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   Create Group
                 </button>

@@ -90,61 +90,53 @@ const Admin = () => {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="bg-slatebg-900 border border-slatebg-800 p-6 rounded-2xl flex items-center gap-4">
-        <div className="p-3 bg-red-950/40 border border-red-900/30 rounded-xl text-red-400">
-          <ShieldAlert className="h-6 w-6" />
-        </div>
-        <div>
-          <h3 className="text-base font-bold text-white">System Moderation & Audit</h3>
-          <p className="text-xs text-slatebg-400 mt-0.5">Manage academic roles, user statuses, and moderate community forums or events</p>
-        </div>
-      </div>
+      
 
       {loading && !stats ? (
-        <div className="text-center p-12 text-slatebg-400 text-xs">Querying system indexes...</div>
+        <div className="text-center p-12 text-slate-700 text-xs">Querying system indexes...</div>
       ) : (
         <>
           {/* Admin Stats Grid */}
           {stats && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5">
-                <span className="text-[10px] text-slatebg-400 font-semibold uppercase block">System Users</span>
-                <span className="text-xl font-bold text-white block mt-1">{stats.users.total_users} Users</span>
-                <span className="text-[9.5px] text-slatebg-550 block mt-1.5">
+              <div className="bg-canvas-50 border border-slate-300 rounded-xl p-5">
+                <span className="text-[10px] text-slate-700 font-semibold uppercase block">System Users</span>
+                <span className="text-xl font-bold text-canvas-900 block mt-1">{stats.users.total_users} Users</span>
+                <span className="text-[9.5px] text-slate-600 block mt-1.5">
                   ({stats.users.students} Students • {stats.users.lecturers} Lecturers • {stats.users.researchers} Researchers)
                 </span>
               </div>
 
-              <div className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5">
-                <span className="text-[10px] text-slatebg-400 font-semibold uppercase block">Forums & Groups</span>
-                <span className="text-xl font-bold text-white block mt-1">{stats.entities.total_communities} Communities</span>
-                <span className="text-[9.5px] text-slatebg-550 block mt-1.5">Active academic discussion boards</span>
+              <div className="bg-canvas-50 border border-slate-300 rounded-xl p-5">
+                <span className="text-[10px] text-slate-700 font-semibold uppercase block">Forums & Groups</span>
+                <span className="text-xl font-bold text-canvas-900 block mt-1">{stats.entities.total_communities} Communities</span>
+                <span className="text-[9.5px] text-slate-600 block mt-1.5">Active academic discussion boards</span>
               </div>
 
-              <div className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5">
-                <span className="text-[10px] text-slatebg-400 font-semibold uppercase block">Collaborative Teams</span>
-                <span className="text-xl font-bold text-white block mt-1">{stats.entities.total_projects} Projects</span>
-                <span className="text-[9.5px] text-slatebg-550 block mt-1.5">Active workspaces with document sharing</span>
+              <div className="bg-canvas-50 border border-slate-300 rounded-xl p-5">
+                <span className="text-[10px] text-slate-700 font-semibold uppercase block">Collaborative Teams</span>
+                <span className="text-xl font-bold text-canvas-900 block mt-1">{stats.entities.total_projects} Projects</span>
+                <span className="text-[9.5px] text-slate-600 block mt-1.5">Active workspaces with document sharing</span>
               </div>
 
-              <div className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5">
-                <span className="text-[10px] text-slatebg-400 font-semibold uppercase block">Events Scheduled</span>
-                <span className="text-xl font-bold text-white block mt-1">{stats.entities.total_events} Seminars</span>
-                <span className="text-[9.5px] text-slatebg-550 block mt-1.5">With institutional limit validations</span>
+              <div className="bg-canvas-50 border border-slate-300 rounded-xl p-5">
+                <span className="text-[10px] text-slate-700 font-semibold uppercase block">Events Scheduled</span>
+                <span className="text-xl font-bold text-canvas-900 block mt-1">{stats.entities.total_events} Seminars</span>
+                <span className="text-[9.5px] text-slate-600 block mt-1.5">With institutional limit validations</span>
               </div>
             </div>
           )}
 
           {/* User management directory (Roster table) */}
-          <div className="bg-slatebg-900 border border-slatebg-800 rounded-xl p-5 space-y-4">
-            <h4 className="text-xs font-bold text-slatebg-400 uppercase tracking-wider flex items-center gap-1.5 pb-2 border-b border-slatebg-850">
-              <Users className="h-4.5 w-4.5 text-brand-400" /> User Administration Directory
+          <div className="bg-canvas-50 border border-slate-300 rounded-xl p-5 space-y-4">
+            <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5 pb-2 border-b border-slate-200">
+              <Users className="h-4.5 w-4.5 text-blue-600" /> User Administration Directory
             </h4>
             
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-slatebg-800 text-slatebg-500 font-semibold">
+                  <tr className="border-b border-slate-300 text-slate-600 font-semibold">
                     <th className="py-2.5 px-3">Name</th>
                     <th className="py-2.5 px-3">Email</th>
                     <th className="py-2.5 px-3">Institution / Dept</th>
@@ -154,8 +146,8 @@ const Admin = () => {
                 </thead>
                 <tbody>
                   {usersList.map((u) => (
-                    <tr key={u.id} className="border-b border-slatebg-850/65 hover:bg-slatebg-850/20 text-slatebg-300">
-                      <td className="py-3.5 px-3 font-semibold text-white">{u.full_name}</td>
+                    <tr key={u.id} className="border-b border-slate-200/65 hover:bg-canvas-200/20 text-slate-800">
+                      <td className="py-3.5 px-3 font-semibold text-canvas-900">{u.full_name}</td>
                       <td className="py-3.5 px-3">{u.email}</td>
                       <td className="py-3.5 px-3 truncate max-w-[200px]">
                         {u.institution_name || 'All'} / {u.department_name || 'All'}
@@ -164,7 +156,7 @@ const Admin = () => {
                         <select
                           value={u.role}
                           onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                          className="bg-slatebg-950 border border-slatebg-800 rounded px-2 py-1 text-[11px] focus:outline-none"
+                          className="bg-canvas-100 border border-slate-300 rounded px-2 py-1 text-[11px] focus:outline-none"
                         >
                           <option value="student">Student</option>
                           <option value="lecturer">Lecturer</option>
@@ -177,8 +169,8 @@ const Admin = () => {
                           onClick={() => handleToggleStatus(u.id)}
                           className={`px-2 py-1 text-[10px] font-bold rounded flex items-center gap-1 transition-colors ${
                             u.status === 'suspended'
-                              ? 'bg-emerald-950 text-emerald-400 hover:bg-emerald-900'
-                              : 'bg-red-950/40 text-red-400 hover:bg-red-900/30'
+                              ? 'bg-emerald-100 text-emerald-700 border border-emerald-200 hover:bg-emerald-200'
+                              : 'bg-red-100 text-red-700 border border-red-200 hover:bg-red-200'
                           }`}
                         >
                           {u.status === 'suspended' ? (
@@ -202,20 +194,20 @@ const Admin = () => {
           {/* Communities & Events Moderation row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Communities moderation */}
-            <div className="bg-slatebg-900 border border-slatebg-800 p-5 rounded-xl space-y-4">
-              <h4 className="text-xs font-bold text-slatebg-400 uppercase tracking-wider pb-2 border-b border-slatebg-850">
+            <div className="bg-canvas-50 border border-slate-300 p-5 rounded-xl space-y-4">
+              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider pb-2 border-b border-slate-200">
                 Moderate Forums
               </h4>
               <div className="space-y-3.5 max-h-72 overflow-y-auto">
                 {communities.map((c) => (
-                  <div key={c.id} className="p-3 bg-slatebg-950/40 border border-slatebg-850 rounded-xl flex items-center justify-between gap-4">
+                  <div key={c.id} className="p-3 bg-canvas-100 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
                     <div className="overflow-hidden">
-                      <span className="text-xs font-bold text-white block truncate">{c.name}</span>
-                      <span className="text-[10px] text-slatebg-550 block">Category: {c.category}</span>
+                      <span className="text-xs font-bold text-canvas-900 block truncate">{c.name}</span>
+                      <span className="text-[10px] text-slate-600 block">Category: {c.category}</span>
                     </div>
                     <button
                       onClick={() => handleDeleteCommunity(c.id)}
-                      className="p-1.5 text-slatebg-500 hover:text-red-400 rounded-lg hover:bg-slatebg-850 transition-colors"
+                      className="p-1.5 text-slate-600 hover:text-red-400 rounded-lg hover:bg-canvas-200 transition-colors"
                       title="Delete Forum"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -226,20 +218,20 @@ const Admin = () => {
             </div>
 
             {/* Events moderation */}
-            <div className="bg-slatebg-900 border border-slatebg-800 p-5 rounded-xl space-y-4">
-              <h4 className="text-xs font-bold text-slatebg-400 uppercase tracking-wider pb-2 border-b border-slatebg-850">
+            <div className="bg-canvas-50 border border-slate-300 p-5 rounded-xl space-y-4">
+              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider pb-2 border-b border-slate-200">
                 Moderate Scheduled Events
               </h4>
               <div className="space-y-3.5 max-h-72 overflow-y-auto">
                 {events.map((e) => (
-                  <div key={e.id} className="p-3 bg-slatebg-950/40 border border-slatebg-850 rounded-xl flex items-center justify-between gap-4">
+                  <div key={e.id} className="p-3 bg-canvas-100 border border-slate-200 rounded-xl flex items-center justify-between gap-4">
                     <div className="overflow-hidden">
-                      <span className="text-xs font-bold text-white block truncate">{e.title}</span>
-                      <span className="text-[10px] text-slatebg-550 block">Location: {e.location} • Date: {new Date(e.event_date).toLocaleDateString()}</span>
+                      <span className="text-xs font-bold text-canvas-900 block truncate">{e.title}</span>
+                      <span className="text-[10px] text-slate-600 block">Location: {e.location} • Date: {new Date(e.event_date).toLocaleDateString()}</span>
                     </div>
                     <button
                       onClick={() => handleDeleteEvent(e.id)}
-                      className="p-1.5 text-slatebg-500 hover:text-red-400 rounded-lg hover:bg-slatebg-850 transition-colors"
+                      className="p-1.5 text-slate-600 hover:text-red-400 rounded-lg hover:bg-canvas-200 transition-colors"
                       title="Cancel Event"
                     >
                       <Trash2 className="h-4 w-4" />

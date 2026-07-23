@@ -84,17 +84,17 @@ const Profile = () => {
 
   const getRoleBadgeColor = () => {
     switch (user?.role) {
-      case 'admin': return 'bg-red-950/40 text-red-400 border-red-900/30';
-      case 'lecturer': return 'bg-amber-950/40 text-amber-400 border-amber-900/30';
-      case 'researcher': return 'bg-sky-950/40 text-sky-400 border-sky-900/30';
-      default: return 'bg-brand-950/40 text-brand-400 border-brand-900/30';
+      case 'admin': return 'bg-red-100 text-red-700 border-red-200';
+      case 'lecturer': return 'bg-amber-100 text-amber-700 border-amber-200';
+      case 'researcher': return 'bg-sky-100 text-sky-700 border-sky-200';
+      default: return 'bg-blue-100 text-blue-700 border-blue-200';
     }
   };
 
   return (
     <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
-      <div className="bg-slatebg-900 border border-slatebg-800 rounded-2xl p-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-44 h-full bg-brand-900/5 rounded-full blur-[40px] pointer-events-none"></div>
+      <div className="bg-canvas-50 border border-slate-300 rounded-2xl p-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-44 h-full bg-blue-900/5 rounded-full blur-[40px] pointer-events-none"></div>
 
         <div className="flex flex-col sm:flex-row items-center gap-6">
           {/* Avatar frame */}
@@ -102,10 +102,10 @@ const Profile = () => {
             <img
               src={user?.avatar_url ? `http://localhost:5000${user.avatar_url}` : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
               alt={fullName}
-              className="w-24 h-24 rounded-full border-2 border-slatebg-700 object-cover"
+              className="w-24 h-24 rounded-full border-2 border-slate-300 object-cover"
             />
-            <label className="absolute inset-0 bg-slatebg-950/60 rounded-full flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
-              <Camera className="h-6 w-6 text-white" />
+            <label className="absolute inset-0 bg-canvas-100/60 rounded-full flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
+              <Camera className="h-6 w-6 text-canvas-900" />
               <input
                 type="file"
                 className="hidden"
@@ -117,21 +117,21 @@ const Profile = () => {
 
           <div className="text-center sm:text-left space-y-1">
             <div className="flex items-center gap-2.5 flex-col sm:flex-row justify-center sm:justify-start">
-              <h3 className="text-lg font-bold text-white leading-none">{user?.full_name}</h3>
+              <h3 className="text-lg font-bold text-canvas-900 leading-none">{user?.full_name}</h3>
               <span className={`px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded border ${getRoleBadgeColor()}`}>
                 {user?.role}
               </span>
             </div>
-            <p className="text-xs text-slatebg-400 font-medium">{user?.email}</p>
+            <p className="text-xs font-medium">{user?.email}</p>
             {selectedFile && (
-              <span className="text-[10px] text-brand-400 font-semibold block">Pending picture save: {selectedFile.name}</span>
+              <span className="text-[10px] text-blue-600 font-semibold block">Pending picture save: {selectedFile.name}</span>
             )}
           </div>
         </div>
       </div>
 
       {successMsg && (
-        <div className="p-3.5 bg-emerald-950/20 border border-emerald-900/40 text-emerald-400 rounded-xl text-xs font-semibold flex items-center gap-2 animate-slide-up">
+        <div className="p-3.5 bg-blue-950/20 border border-blue-900/40 text-blue-400 rounded-xl text-xs font-semibold flex items-center gap-2 animate-slide-up">
           <Check className="h-4 w-4 shrink-0" />
           <span>{successMsg}</span>
         </div>
@@ -145,27 +145,27 @@ const Profile = () => {
       )}
 
       {/* Main Settings details Form */}
-      <form onSubmit={handleProfileSubmit} className="bg-slatebg-900 border border-slatebg-800 rounded-2xl p-6 space-y-5">
-        <h4 className="text-xs font-bold text-slatebg-400 uppercase tracking-wider">Profile Customization</h4>
+      <form onSubmit={handleProfileSubmit} className="bg-canvas-50 border border-slate-300 rounded-2xl p-6 space-y-5">
+        <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Profile Customization</h4>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Full Name</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Full Name</label>
             <input
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs text-white placeholder-slatebg-650 focus:outline-none focus:border-brand-500"
+              className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-xs text-canvas-900 placeholder-slate-500 focus:outline-none focus:border-blue-500"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Institution</label>
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Institution</label>
             <select
               value={selectedInstitution}
               onChange={(e) => setSelectedInstitution(e.target.value)}
-              className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs text-white focus:outline-none"
+              className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-xs text-canvas-900 focus:outline-none"
             >
               <option value="">No Institution Affiliation</option>
               {institutions.map((inst) => (
@@ -179,14 +179,14 @@ const Profile = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">
-              Department {loadingDepts && <span className="text-[10px] text-brand-400">(loading...)</span>}
+            <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">
+              Department {loadingDepts && <span className="text-[10px] text-blue-600">(loading...)</span>}
             </label>
             <select
               value={selectedDepartment}
               onChange={(e) => setSelectedDepartment(e.target.value)}
               disabled={!selectedInstitution || loadingDepts}
-              className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs text-white disabled:opacity-50 focus:outline-none"
+              className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-xs text-canvas-900 disabled:opacity-50 focus:outline-none"
             >
               <option value="">No Department Selected</option>
               {departments.map((dept) => (
@@ -199,12 +199,12 @@ const Profile = () => {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slatebg-400 mb-1.5 uppercase">Biography / Academic Interests</label>
+          <label className="block text-xs font-semibold text-slate-700 mb-1.5 uppercase">Biography / Academic Interests</label>
           <textarea
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             rows="3"
-            className="w-full px-4 py-2.5 bg-slatebg-950 border border-slatebg-800 rounded-xl text-xs text-white placeholder-slatebg-650 focus:outline-none focus:border-brand-500 resize-none"
+            className="w-full px-4 py-2.5 bg-canvas-100 border border-slate-300 rounded-xl text-xs text-canvas-900 placeholder-slate-500 focus:outline-none focus:border-blue-500 resize-none"
           />
         </div>
 
@@ -212,7 +212,7 @@ const Profile = () => {
           <button
             type="submit"
             disabled={loading}
-            className="px-5 py-2.5 bg-brand-600 hover:bg-brand-500 disabled:bg-brand-850 text-white text-xs font-semibold rounded-xl transition-colors shadow flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-850 text-white text-xs font-semibold rounded-xl transition-colors shadow flex items-center gap-1.5"
           >
             {loading && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
             <span>Save Profile Modifications</span>
